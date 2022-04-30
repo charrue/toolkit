@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { Queue } from "../src/data-structure/Queue";
 
 describe("test queue", () => {
@@ -48,7 +54,7 @@ describe("test queue", () => {
 
   it("forEach", () => {
     const queue = new Queue();
-    let fn = jest.fn();
+    let fn = vi.fn();
 
     queue.enqueue(1);
     queue.enqueue(2);
@@ -56,14 +62,14 @@ describe("test queue", () => {
     queue.forEach(fn);
     expect(fn).toBeCalledTimes(3);
 
-    fn = jest.fn();
+    fn = vi.fn();
     queue.dequeue();
     queue.dequeue();
 
     queue.forEach(fn);
     expect(fn).toBeCalledTimes(1);
 
-    fn = jest.fn();
+    fn = vi.fn();
     queue.dequeue();
     queue.forEach(fn);
     expect(fn).toBeCalledTimes(0);

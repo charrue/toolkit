@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { detectInstaller } from "../src/node/detect-installer";
 
 describe("detect-installer", () => {

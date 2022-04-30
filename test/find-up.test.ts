@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { findUp, findUpMultiple } from "../src/node/find-up";
 import { resolve } from "path";
 
