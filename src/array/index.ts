@@ -5,15 +5,10 @@ interface IArrayLike<T> {
 }
 
 /**
- * 返回数组的最后一个元素，不会改变原数组。
- */
-export const last = <T>(arr: IArrayLike<T>): T | undefined => {
-  if (arr.length === 0) return undefined;
-  return arr[arr.length - 1];
-};
-
-/**
- * 从数组的最后一个元素向第一个元素开始遍历
+ * @description 反向遍历数组
+ * @param  arr - 需要遍历的数组
+ * @param  callbackfn - 遍历的回调函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
  */
 export const forEachRight = <T, C = any>(
   arr: IArrayLike<T>,
@@ -28,9 +23,15 @@ export const forEachRight = <T, C = any>(
   }
 };
 
+/**
+ * @description 计算数组中符合条件的元素的个数
+ * @param  arr - 需要遍历的数组
+ * @param  callbackfn - 条件函数，返回true则计数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
+ */
 export const count = <T, C = any>(
   arr: T[],
-  callbackfn: (value: T, index: number, array: IArrayLike<T>) => value is any,
+  callbackfn: (value: T, index: number, array: T[]) => boolean,
   ctx?: C,
 ): number => {
   let num = 0;
@@ -42,9 +43,16 @@ export const count = <T, C = any>(
   return num;
 };
 
+/**
+ * @description 从后往前遍历数组，找到第一个符合条件的元素的索引
+ * @param  arr - 原数组
+ * @param  callbackfn - 条件函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回符合元素的索引，如果没有找到则返回-1
+ */
 export const findIndexRight = <T, C>(
-  arr: IArrayLike<T>,
-  callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
+  arr: T[],
+  callbackfn: (value: T, index: number, array: T[]) => unknown,
   thisArg?: C,
 ): number => {
   const l = arr.length;
@@ -56,9 +64,16 @@ export const findIndexRight = <T, C>(
   return -1;
 };
 
+/**
+ * @description 从后往前遍历数组，找到第一个符合条件的元素
+ * @param  arr - 原数组
+ * @param  callbackfn - 条件函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回符合的元素
+ */
 export const findRight = <T, C>(
-  arr: IArrayLike<T>,
-  callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
+  arr: T[],
+  callbackfn: (value: T, index: number, array: T[]) => unknown,
   thisArg?: C,
 ): T | undefined => {
   const i = findIndexRight(arr, callbackfn, thisArg);
@@ -67,17 +82,8 @@ export const findRight = <T, C>(
 };
 
 /**
- * 判断数组中是否包含给定的对象
- */
-export const contains = <T>(arr: T[], obj: T): boolean => arr.indexOf(obj) >= 0;
-
-/**
- * 判断数组是否为空
- */
-export const isEmpty = <T>(arr: IArrayLike<T>): boolean => arr.length === 0;
-
-/**
- *清空数组中的值
+ * @description 清空数组中的
+ * @param  arr - 需要清空的数组
  */
 export const clear = <T>(arr: IArrayLike<T>): void => {
   if (!Array.isArray(arr)) {
@@ -89,124 +95,78 @@ export const clear = <T>(arr: IArrayLike<T>): void => {
 };
 
 /**
- * 插入一个值到数组的末尾，如果值已存在，则不插入
- */
-export const insert = <T>(arr: T[], obj: T): T[] => {
-  if (!contains(arr, obj)) {
-    arr.push(obj);
-  }
-  return arr;
-};
-
-/**
- * 插入一个值到数组中的指定下标
- */
-export const insertAt = <T>(arr: T[], index: number, ...obj: T[]): T[] => {
-  arr.splice(index, 0, ...obj);
-  return arr;
-};
-
-// TODO insertArrayAt
-
-/**
- * 在指定元素之前插入一个元素
- */
-export const insertBefore = <T>(
-  arr: T[],
-  matchedData: T,
-  ...dataToInsert: T[]
-): T[] => {
-  const i = arr.indexOf(matchedData);
-  if (i < 0) {
-    arr.push(...dataToInsert);
-  } else {
-    insertAt(arr, i, ...dataToInsert);
-  }
-  return arr;
-};
-
-/**
- * 移除数组中指定下标的元素
- */
-export const removeAt = <T>(
-  arr: T[],
-  i: number,
-): boolean => Array.prototype.splice.call(arr, i, 1).length === 1;
-
-/**
- * 移除数组中第一个选择的元素
- */
-export const remove = <T>(
-  arr: T[],
-  obj: T,
-): number => {
-  const i = arr.indexOf(obj);
-  if (i >= 0) {
-    removeAt(arr, i);
-  }
-  return i;
-};
-
-/**
- * 根据给定的条件移除数组中符合的第一个元素
+ * @description 根据给定的条件移除数组中符合的第一个元素
+ * @param arr - 原数组
+ * @param callbackfn - 条件函数
+ * @param thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回移除的元素
  */
 export const removeIf = <T, C>(
   arr: T[],
   callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
   thisArg?: C,
-): boolean => {
+): T => {
   const index = arr.findIndex(callbackfn, thisArg);
+  const item = arr[index];
   if (index >= 0) {
-    removeAt(arr, index);
-    return true;
+    arr.splice(index, 1);
   }
-  return false;
+  return item;
 };
 
 /**
- * 根据给定的条件移除数组中的所有符合的元素
+ * @description 根据给定的条件移除数组中的所有符合的元素
+ * @param arr - 原数组
+ * @param callbackfn - 条件函数
+ * @param thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回所有移除的元素
  */
 export const removeAllIf = <T, C>(
-  arr: T[],
+  originArray: T[],
   callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
   thisArg?: C,
-): number => {
-  let removedCount = 0;
+): T[] => {
+  const arr = ([] as T[]).concat(originArray);
+  const removedArr = [] as T[];
   forEachRight(arr, (value, index) => {
     if (callbackfn.call(thisArg, value, index, arr)) {
-      if (removeAt(arr, index)) {
-        removedCount++;
-      }
+      removedArr.push(value);
+      originArray.splice(index, 1);
     }
   });
-  return removedCount;
+  return removedArr;
 };
 
 /**
- * 将一个类数组转换为数组类型
+ * @description 将一个类数组转换为数组类型
+ * @param  arr - 类数组
+ * @return 转换后的数组
  */
-export const toArray = <T>(object: IArrayLike<T>): T[] => {
-  const { length } = object;
+export const toArray = <T>(arrayLike: IArrayLike<T>): T[] => {
+  const { length } = arrayLike;
+  const arr = Array.from({ length }) as T[];
 
   if (length > 0) {
-    const rv: T[] = new Array(length);
-    for (let i = 0;i < length;i++) {
-      rv[i] = object[i];
+    for (const k in arrayLike) {
+      arr.push(arrayLike[k]);
     }
-    return rv;
   }
-  return [];
+  return arr;
 };
 
 /**
- * 将数组进行反转
+ * @description 反转数组中的元素，
+ * @param arr - 原数组
+ * @param n - 需要反转的元素个数，默认为数组长度
+ * @returns 反转后的数组
  */
 export const rotate = <T>(
-  arr: T[],
+  originArray: T[],
   n: number,
 ): T[] => {
+  const arr = originArray;
   if (arr.length) {
-    n %= arr.length;
+    n = n ? n % arr.length : arr.length;
     if (n > 0) {
       // 将后n个元素，移动到前n个
       // splice会返回删除的元素，然后通过unshift插入到前面
@@ -221,7 +181,21 @@ export const rotate = <T>(
 };
 
 /**
- * 将一个数重复n次，返回一个数组
+ * @description 将数组中的元素从from移动到to
+ * @param arr - 原数组
+ * @param from - 原始位置下标
+ * @param to - 最终位置下标
+ * @returns 移动后的数组
+ */
+export function move<T>(arr: T[], from: number, to: number) {
+  arr.splice(to, 0, arr.splice(from, 1)[0]);
+  return arr;
+}
+
+/**
+ * @description 将一个数重复n次，返回一个数组
+ * @param {*} value - 需要重复的数据
+ * @param {number} n - 重复次数
  */
 export const repeat = <T>(
   value: T,
@@ -254,47 +228,3 @@ export const flatten = <T>(...args: T[]): T[] => {
   }
   return result;
 };
-
-// shuffle
-// zip
-// moveItem
-// range
-// bucket
-// binaryRemove
-// binaryInsert
-// equals
-// stableSort
-// binarySelect
-// binarySearch
-// removeDuplicates
-// extend
-// clone
-// chunk
-// compact
-// difference
-// differenceBy
-// differenceWith
-// drop
-// dropRight
-// dropWhile
-// fill
-// flattenDeep
-// fromPairs
-// head
-// initial
-// intersection
-// intersectionWith
-// nth
-// pull
-// pullAll
-// pullAllBy
-// pullAllWith
-// pullAllAt
-// tail
-// take
-// takeRight
-// takeRightWile
-// union
-// unionBy
-// unionWith
-// uniq
