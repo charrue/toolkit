@@ -10,3 +10,5 @@ export * from "./data-structure";
 export * from "./date";
 export * from "./string";
 export * from "./async";
+
+export * from "./validate";
