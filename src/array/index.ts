@@ -143,12 +143,24 @@ export const removeAllIf = <T, C>(
  * @return 转换后的数组
  */
 export const toArray = <T>(arrayLike: IArrayLike<T>): T[] => {
-  const { length } = arrayLike;
-  const arr = Array.from({ length }) as T[];
+  if (Array.isArray(arrayLike)) {
+    return arrayLike;
+  }
 
-  if (length > 0) {
+  if (arrayLike.length === 0) return [];
+
+  if (typeof arrayLike === "string") {
+    return [...arrayLike];
+  }
+
+  const { length } = arrayLike;
+  const arr = [] as T[];
+
+  if (length && length > 0) {
     for (const k in arrayLike) {
-      arr.push(arrayLike[k]);
+      if (arrayLike.hasOwnProperty(k) && k !== "length") {
+        arr.push(arrayLike[k]);
+      }
     }
   }
   return arr;

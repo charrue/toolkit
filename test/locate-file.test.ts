@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { resolve } from "path";
 import { locatePath } from "../src/node/locate-file";
 
