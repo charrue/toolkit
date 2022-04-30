@@ -3,69 +3,76 @@ interface IArrayLike<T> {
     [n: number]: T;
 }
 /**
- * 返回数组的最后一个元素，不会改变原数组。
- */
-declare const last: <T>(arr: IArrayLike<T>) => T | undefined;
-/**
- * 从数组的最后一个元素向第一个元素开始遍历
+ * @description 反向遍历数组
+ * @param  arr - 需要遍历的数组
+ * @param  callbackfn - 遍历的回调函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
  */
 declare const forEachRight: <T, C = any>(arr: IArrayLike<T>, callbackfn: (value: T, index: number, self: IArrayLike<T>) => void, context?: C | undefined) => void;
-declare const count: <T, C = any>(arr: T[], callbackfn: (value: T, index: number, array: IArrayLike<T>) => value is any, ctx?: C | undefined) => number;
-declare const findIndexRight: <T, C>(arr: IArrayLike<T>, callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => number;
-declare const findRight: <T, C>(arr: IArrayLike<T>, callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => T | undefined;
 /**
- * 判断数组中是否包含给定的对象
+ * @description 计算数组中符合条件的元素的个数
+ * @param  arr - 需要遍历的数组
+ * @param  callbackfn - 条件函数，返回true则计数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
  */
-declare const contains: <T>(arr: T[], obj: T) => boolean;
+declare const count: <T, C = any>(arr: T[], callbackfn: (value: T, index: number, array: T[]) => boolean, ctx?: C | undefined) => number;
 /**
- * 判断数组是否为空
+ * @description 从后往前遍历数组，找到第一个符合条件的元素的索引
+ * @param  arr - 原数组
+ * @param  callbackfn - 条件函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回符合元素的索引，如果没有找到则返回-1
  */
-declare const isEmpty: <T>(arr: IArrayLike<T>) => boolean;
+declare const findIndexRight: <T, C>(arr: T[], callbackfn: (value: T, index: number, array: T[]) => unknown, thisArg?: C | undefined) => number;
 /**
- *清空数组中的值
+ * @description 从后往前遍历数组，找到第一个符合条件的元素
+ * @param  arr - 原数组
+ * @param  callbackfn - 条件函数
+ * @param  thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回符合的元素
+ */
+declare const findRight: <T, C>(arr: T[], callbackfn: (value: T, index: number, array: T[]) => unknown, thisArg?: C | undefined) => T | undefined;
+/**
+ * @description 清空数组
+ * @param  arr - 需要清空的数组
  */
 declare const clear: <T>(arr: IArrayLike<T>) => void;
 /**
- * 插入一个值到数组的末尾，如果值已存在，则不插入
+ * @description 根据给定的条件移除数组中符合的第一个元素
+ * @param arr - 原数组
+ * @param callbackfn - 条件函数
+ * @param thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回移除的元素
  */
-declare const insert: <T>(arr: T[], obj: T) => T[];
+declare const removeIf: <T, C>(arr: T[], callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => T;
 /**
- * 插入一个值到数组中的指定下标
+ * @description 根据给定的条件移除数组中的所有符合的元素
+ * @param arr - 原数组
+ * @param callbackfn - 条件函数
+ * @param thisArg - callbackfn的this指向，默认是undefined
+ * @return 返回所有移除的元素
  */
-declare const insertAt: <T>(arr: T[], index: number, ...obj: T[]) => T[];
+declare const removeAllIf: <T, C>(originArray: T[], callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => T[];
 /**
- * 在指定元素之前插入一个元素
+ * @description 将一个类数组转换为数组类型
+ * @param  arr - 类数组
+ * @return 转换后的数组
  */
-declare const insertBefore: <T>(arr: T[], matchedData: T, ...dataToInsert: T[]) => T[];
+declare const toArray: <T>(arrayLike: IArrayLike<T>) => T[];
 /**
- * 移除数组中指定下标的元素
+ * @description 将数组中的元素从from移动到to
+ * @param arr - 原数组
+ * @param from - 原始位置下标
+ * @param to - 最终位置下标
+ * @returns 移动后的数组
  */
-declare const removeAt: <T>(arr: T[], i: number) => boolean;
+declare function move<T>(arr: T[], from: number, to: number): T[];
 /**
- * 移除数组中第一个选择的元素
- */
-declare const remove: <T>(arr: T[], obj: T) => number;
-/**
- * 根据给定的条件移除数组中符合的第一个元素
- */
-declare const removeIf: <T, C>(arr: T[], callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => boolean;
-/**
- * 根据给定的条件移除数组中的所有符合的元素
- */
-declare const removeAllIf: <T, C>(arr: T[], callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown, thisArg?: C | undefined) => number;
-/**
- * 将一个类数组转换为数组类型
- */
-declare const toArray: <T>(object: IArrayLike<T>) => T[];
-/**
- * 将数组进行反转
- */
-declare const rotate: <T>(arr: T[], n: number) => T[];
-/**
- * 将一个数重复n次，返回一个数组
+ * @description 将一个数重复n次，返回一个数组
+ * @param {*} value - 需要重复的数据
+ * @param {number} n - 重复次数
  */
 declare const repeat: <T>(value: T, n: number) => T[];
-declare const flatten: <T>(...args: T[]) => T[];
 
 declare type Options = {
     format?: "object" | "array" | "css";
@@ -408,6 +415,11 @@ declare const lowerAt: (str: string, index: number) => string;
 declare type Fn<T = void> = () => T;
 
 declare function sleep(ms: number, callback?: Fn<any>): Promise<void>;
+
 declare function to<D, E = Error>(promise: Promise<D>, errorExt?: Record<string, any>): Promise<[undefined, E] | [D, null]>;
 
-export { LogLevel, LogLevels, LogOptions, LogType, Logger, LoggerOptions, Queue, SinglyLinkedList, clear, colorizeMessage, compose, contains, count, createLogger, deepClone, downloadFile, findIndexRight, findRight, flatten, forEachRight, formatSeconds, getKeyCodeFromEvent, getMonthDay, getType, hasIn, hexRgb, inBrowser, insert, insertAt, insertBefore, isArr, isBool, isDef, isEmpty, isFn, isHTMLElement, isMap, isNull, isNum, isObj, isPlainObj, isRegExp, isSet, isStr, isSymbol, isUnDef, isUndefined, isWeakMap, isWeakSet, isWindow, last, lowerAt, lowerFirst, omit, padEnd, padStart, parseSeconds, pick, remove, removeAllIf, removeAt, removeIf, repeat, rotate, sleep, to, toArray, upperAt, upperFirst };
+declare const validateMobile: (value: string, callback?: ((...par: any[]) => void) | undefined) => boolean;
+declare const validateEmail: (value: string, callback?: ((...par: any[]) => void) | undefined) => boolean;
+declare const validateIdCard: (value: string, callback?: ((...par: any[]) => void) | undefined) => boolean;
+
+export { LogLevel, LogLevels, LogOptions, LogType, Logger, LoggerOptions, Queue, SinglyLinkedList, clear, colorizeMessage, compose, count, createLogger, deepClone, downloadFile, findIndexRight, findRight, forEachRight, formatSeconds, getKeyCodeFromEvent, getMonthDay, getType, hasIn, hexRgb, inBrowser, isArr, isBool, isDef, isFn, isHTMLElement, isMap, isNull, isNum, isObj, isPlainObj, isRegExp, isSet, isStr, isSymbol, isUnDef, isUndefined, isWeakMap, isWeakSet, isWindow, lowerAt, lowerFirst, move, omit, padEnd, padStart, parseSeconds, pick, removeAllIf, removeIf, repeat, sleep, to, toArray, upperAt, upperFirst, validateEmail, validateIdCard, validateMobile };
