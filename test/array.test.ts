@@ -9,6 +9,10 @@ import {
   findIndexRight,
   clear,
   toArray,
+  move,
+  repeat,
+  removeIf,
+  removeAllIf,
 } from "../src/array";
 
 describe("Array", () => {
@@ -88,7 +92,7 @@ describe("Array", () => {
     const obj = {
       length: 2,
     };
-    expect(toArray(obj)).toEqual([]);
+    expect(toArray(obj)).toEqual([undefined, undefined]);
     const obj2 = {
       0: "1",
       1: 2,
@@ -96,4 +100,32 @@ describe("Array", () => {
     };
     expect(toArray(obj2)).toEqual(["1", 2]);
   });
+
+  it("removeIf", () => {
+    const arr = [1, 2, 3, 4, 5];
+    const item = removeIf(arr, (item) => {
+      return item === 3
+    })
+    expect(item).toBe(3)
+  })
+
+  it("removeAllIf", () => {
+    const arr = [1, 2, 3, 4, 5];
+    const items = removeAllIf(arr, (item) => {
+      return item > 3
+    })
+    expect(items).toEqual([4, 5])
+  })
+
+  it("move", () => {
+    expect(move([1, 2, 3], 0, 0)).toEqual([1, 2, 3]);
+    expect(move([1, 2, 3], 1, 2)).toEqual([1, 3, 2]);
+    expect(move([1, 2, 3], -1, 0)).toEqual([3, 1, 2]);
+  })
+
+  it("repeat", () => {
+    expect(repeat(1, 0)).toEqual([]);
+    expect(repeat(1, 3)).toEqual([1, 1, 1]);
+  })
+
 });
