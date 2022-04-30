@@ -82,7 +82,7 @@ export const findRight = <T, C>(
 };
 
 /**
- * @description 清空数组中的
+ * @description 清空数组
  * @param  arr - 需要清空的数组
  */
 export const clear = <T>(arr: IArrayLike<T>): void => {
@@ -128,7 +128,7 @@ export const removeAllIf = <T, C>(
 ): T[] => {
   const arr = ([] as T[]).concat(originArray);
   const removedArr = [] as T[];
-  forEachRight(arr, (value, index) => {
+  arr.forEach((value, index) => {
     if (callbackfn.call(thisArg, value, index, arr)) {
       removedArr.push(value);
       originArray.splice(index, 1);
@@ -154,39 +154,15 @@ export const toArray = <T>(arrayLike: IArrayLike<T>): T[] => {
   }
 
   const { length } = arrayLike;
-  const arr = [] as T[];
+  const arr = Array.from({ length: 2 }) as T[];
 
   if (length && length > 0) {
+    let index = 0;
     for (const k in arrayLike) {
       if (arrayLike.hasOwnProperty(k) && k !== "length") {
-        arr.push(arrayLike[k]);
+        arr[index] = arrayLike[k];
+        index++
       }
-    }
-  }
-  return arr;
-};
-
-/**
- * @description 反转数组中的元素，
- * @param arr - 原数组
- * @param n - 需要反转的元素个数，默认为数组长度
- * @returns 反转后的数组
- */
-export const rotate = <T>(
-  originArray: T[],
-  n: number,
-): T[] => {
-  const arr = originArray;
-  if (arr.length) {
-    n = n ? n % arr.length : arr.length;
-    if (n > 0) {
-      // 将后n个元素，移动到前n个
-      // splice会返回删除的元素，然后通过unshift插入到前面
-      Array.prototype.unshift.apply(arr, arr.splice(-n, n));
-    } else if (n < 0) {
-      // 将前n个元素，移动到后n个
-      // 将前n个元素移除，然后通过push放到数组后面
-      Array.prototype.push.apply(arr, arr.splice(0, -n));
     }
   }
   return arr;
@@ -218,25 +194,4 @@ export const repeat = <T>(
     array[i] = value;
   }
   return array;
-};
-
-export const flatten = <T>(...args: T[]): T[] => {
-  const CHUNK_SIZE = 8192;
-
-  const result: T[] = [];
-  for (let i = 0;i < args.length;i++) {
-    const element = args[i];
-    if (Array.isArray(element)) {
-      for (let c = 0;c < element.length;c += CHUNK_SIZE) {
-        const chunk = element.slice(c, c + CHUNK_SIZE);
-        const recurseResult = flatten(...chunk);
-        for (let r = 0;r < recurseResult.length;r++) {
-          result.push(recurseResult[r]);
-        }
-      }
-    } else {
-      result.push(element);
-    }
-  }
-  return result;
 };
