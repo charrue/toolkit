@@ -8,11 +8,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var readline__default = /*#__PURE__*/_interopDefaultLegacy(readline);
 
-const last = (arr) => {
-  if (arr.length === 0)
-    return void 0;
-  return arr[arr.length - 1];
-};
 const forEachRight = (arr, callbackfn, context) => {
   const l = arr.length;
   for (let i = l - 1; i >= 0; --i) {
@@ -43,8 +38,6 @@ const findRight = (arr, callbackfn, thisArg) => {
   const i = findIndexRight(arr, callbackfn, thisArg);
   return i > 0 ? arr[i] : void 0;
 };
-const contains = (arr, obj) => arr.indexOf(obj) >= 0;
-const isEmpty = (arr) => arr.length === 0;
 const clear = (arr) => {
   if (!Array.isArray(arr)) {
     for (let i = arr.length - 1; i >= 0; i--) {
@@ -53,99 +46,57 @@ const clear = (arr) => {
   }
   arr.length = 0;
 };
-const insert = (arr, obj) => {
-  if (!contains(arr, obj)) {
-    arr.push(obj);
-  }
-  return arr;
-};
-const insertAt = (arr, index, ...obj) => {
-  arr.splice(index, 0, ...obj);
-  return arr;
-};
-const insertBefore = (arr, matchedData, ...dataToInsert) => {
-  const i = arr.indexOf(matchedData);
-  if (i < 0) {
-    arr.push(...dataToInsert);
-  } else {
-    insertAt(arr, i, ...dataToInsert);
-  }
-  return arr;
-};
-const removeAt = (arr, i) => Array.prototype.splice.call(arr, i, 1).length === 1;
-const remove = (arr, obj) => {
-  const i = arr.indexOf(obj);
-  if (i >= 0) {
-    removeAt(arr, i);
-  }
-  return i;
-};
 const removeIf = (arr, callbackfn, thisArg) => {
   const index = arr.findIndex(callbackfn, thisArg);
+  const item = arr[index];
   if (index >= 0) {
-    removeAt(arr, index);
-    return true;
+    arr.splice(index, 1);
   }
-  return false;
+  return item;
 };
-const removeAllIf = (arr, callbackfn, thisArg) => {
-  let removedCount = 0;
-  forEachRight(arr, (value, index) => {
+const removeAllIf = (originArray, callbackfn, thisArg) => {
+  const arr = [].concat(originArray);
+  const removedArr = [];
+  arr.forEach((value, index) => {
     if (callbackfn.call(thisArg, value, index, arr)) {
-      if (removeAt(arr, index)) {
-        removedCount++;
-      }
+      removedArr.push(value);
+      originArray.splice(index, 1);
     }
   });
-  return removedCount;
+  return removedArr;
 };
-const toArray = (object) => {
-  const { length } = object;
-  if (length > 0) {
-    const rv = new Array(length);
-    for (let i = 0; i < length; i++) {
-      rv[i] = object[i];
-    }
-    return rv;
+const toArray = (arrayLike) => {
+  if (Array.isArray(arrayLike)) {
+    return arrayLike;
   }
-  return [];
-};
-const rotate = (arr, n) => {
-  if (arr.length) {
-    n %= arr.length;
-    if (n > 0) {
-      Array.prototype.unshift.apply(arr, arr.splice(-n, n));
-    } else if (n < 0) {
-      Array.prototype.push.apply(arr, arr.splice(0, -n));
+  if (arrayLike.length === 0)
+    return [];
+  if (typeof arrayLike === "string") {
+    return [...arrayLike];
+  }
+  const { length } = arrayLike;
+  const arr = Array.from({ length: 2 });
+  if (length && length > 0) {
+    let index = 0;
+    for (const k in arrayLike) {
+      if (arrayLike.hasOwnProperty(k) && k !== "length") {
+        arr[index] = arrayLike[k];
+        index++;
+      }
     }
   }
   return arr;
 };
+function move(arr, from, to) {
+  arr.splice(to, 0, arr.splice(from, 1)[0]);
+  return arr;
+}
 const repeat = (value, n) => {
   const array = [];
   for (let i = 0; i < n; i++) {
     array[i] = value;
   }
   return array;
-};
-const flatten = (...args) => {
-  const CHUNK_SIZE = 8192;
-  const result = [];
-  for (let i = 0; i < args.length; i++) {
-    const element = args[i];
-    if (Array.isArray(element)) {
-      for (let c = 0; c < element.length; c += CHUNK_SIZE) {
-        const chunk = element.slice(c, c + CHUNK_SIZE);
-        const recurseResult = flatten(...chunk);
-        for (let r = 0; r < recurseResult.length; r++) {
-          result.push(recurseResult[r]);
-        }
-      }
-    } else {
-      result.push(element);
-    }
-  }
-  return result;
 };
 
 const hexCharacters = "a-f\\d";
@@ -2533,6 +2484,7 @@ function sleep(ms, callback) {
     resolve();
   }), ms));
 }
+
 function to(promise, errorExt) {
   return promise.then((data) => [data, null]).catch((err) => {
     if (errorExt) {
@@ -2542,20 +2494,71 @@ function to(promise, errorExt) {
   });
 }
 
+const MOBILE_RE = /^1[3456789]\d{9}$/;
+const EMAIL_RE = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+const ID_CARD_RE = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/;
+
+const isMobile = (str) => MOBILE_RE.test(str);
+const isEmail = (str) => EMAIL_RE.test(str);
+const isIdCard = (str) => ID_CARD_RE.test(str);
+const validateMobile = (value, callback) => {
+  if (value.trim() === "") {
+    if (callback)
+      callback(new Error("\u8BF7\u8F93\u5165\u624B\u673A\u53F7"));
+    return false;
+  }
+  if (!isMobile(value.trim())) {
+    if (callback)
+      callback(new Error("\u624B\u673A\u53F7\u683C\u5F0F\u9519\u8BEF"));
+    return false;
+  }
+  if (callback)
+    callback();
+  return true;
+};
+const validateEmail = (value, callback) => {
+  if (value.trim() === "") {
+    if (callback)
+      callback(new Error("\u8BF7\u8F93\u5165\u90AE\u7BB1"));
+    return false;
+  }
+  if (!isEmail(value.trim())) {
+    if (callback)
+      callback(new Error("\u90AE\u7BB1\u683C\u5F0F\u9519\u8BEF"));
+    return false;
+  }
+  if (callback)
+    callback();
+  return true;
+};
+const validateIdCard = (value, callback) => {
+  if (value.trim() === "") {
+    if (callback)
+      callback(new Error("\u8BF7\u8F93\u5165\u8EAB\u4EFD\u8BC1\u53F7"));
+    return false;
+  }
+  if (!isIdCard(value.trim())) {
+    if (callback)
+      callback(new Error("\u8EAB\u4EFD\u8BC1\u53F7\u683C\u5F0F\u9519\u8BEF"));
+    return false;
+  }
+  if (callback)
+    callback();
+  return false;
+};
+
 exports.LogLevels = LogLevels;
 exports.Queue = Queue;
 exports.SinglyLinkedList = SinglyLinkedList;
 exports.clear = clear;
 exports.colorizeMessage = colorizeMessage;
 exports.compose = compose;
-exports.contains = contains;
 exports.count = count;
 exports.createLogger = createLogger;
 exports.deepClone = deepClone;
 exports.downloadFile = downloadFile;
 exports.findIndexRight = findIndexRight;
 exports.findRight = findRight;
-exports.flatten = flatten;
 exports.forEachRight = forEachRight;
 exports.formatSeconds = formatSeconds;
 exports.getKeyCodeFromEvent = getKeyCodeFromEvent;
@@ -2564,13 +2567,9 @@ exports.getType = getType;
 exports.hasIn = hasIn;
 exports.hexRgb = hexRgb;
 exports.inBrowser = inBrowser;
-exports.insert = insert;
-exports.insertAt = insertAt;
-exports.insertBefore = insertBefore;
 exports.isArr = isArr;
 exports.isBool = isBool;
 exports.isDef = isDef;
-exports.isEmpty = isEmpty;
 exports.isFn = isFn;
 exports.isHTMLElement = isHTMLElement;
 exports.isMap = isMap;
@@ -2587,22 +2586,22 @@ exports.isUndefined = isUndefined;
 exports.isWeakMap = isWeakMap;
 exports.isWeakSet = isWeakSet;
 exports.isWindow = isWindow;
-exports.last = last;
 exports.lowerAt = lowerAt;
 exports.lowerFirst = lowerFirst;
+exports.move = move;
 exports.omit = omit;
 exports.padEnd = padEnd;
 exports.padStart = padStart;
 exports.parseSeconds = parseSeconds;
 exports.pick = pick;
-exports.remove = remove;
 exports.removeAllIf = removeAllIf;
-exports.removeAt = removeAt;
 exports.removeIf = removeIf;
 exports.repeat = repeat;
-exports.rotate = rotate;
 exports.sleep = sleep;
 exports.to = to;
 exports.toArray = toArray;
 exports.upperAt = upperAt;
 exports.upperFirst = upperFirst;
+exports.validateEmail = validateEmail;
+exports.validateIdCard = validateIdCard;
+exports.validateMobile = validateMobile;
