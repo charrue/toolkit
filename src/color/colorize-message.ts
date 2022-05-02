@@ -1,11 +1,12 @@
-import { yellow, red, cyan } from "kolorist";
+import { green, yellow, red, cyan } from "kolorist";
 
-type ColorizeType = "error" | "warn" | "info"
+type ColorizeType = "success" | "error" | "warn" | "info"
 
 const colorizeHandler = {
-  info: cyan,
-  warn: yellow,
+  success: green,
   error: red,
+  warn: yellow,
+  info: cyan,
 };
 
 export const colorizeMessage = (message: string, type?: ColorizeType) => {
@@ -14,3 +15,5 @@ export const colorizeMessage = (message: string, type?: ColorizeType) => {
   }
   return message;
 };
+
+export * from "kolorist";

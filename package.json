@@ -1,6 +1,6 @@
 {
   "name": "@charrue/toolkit",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "MIT",
   "main": "./dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -20,7 +20,8 @@
     "build": "rollup -c",
     "test": "vitest",
     "lint": "eslint --fix",
-    "start:ts": "esno"
+    "start:ts": "esno",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "husky": {
     "hooks": {
@@ -36,6 +37,7 @@
     "@types/lodash.clonedeep": "^4.5.6",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
+    "conventional-changelog-cli": "^2.2.2",
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.14.21",
     "eslint": "^7.28.0",
