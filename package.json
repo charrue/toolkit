@@ -1,34 +1,46 @@
 {
   "name": "@charrue/toolkit",
-  "version": "0.6.0",
+  "version": "0.6.1",
+  "homepage": "https://github.com/charrue/toolkit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charrue/toolkit.git"
+  },
   "license": "MIT",
+  "author": "ckangwen",
   "main": "./dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "unpkg": "./dist/index.iife.min.js",
   "jsdelivr": "./dist/index.iife.min.js",
+  "unpkg": "./dist/index.iife.min.js",
+  "module": "dist/index.es.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
     "build": "rollup -c",
-    "test": "vitest",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "docs:build": "vitepress build docs",
+    "docs:dev": "vitepress dev docs",
+    "docs:serve": "vitepress serve docs",
     "lint": "eslint --fix",
     "start:ts": "esno",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "test": "vitest"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "npm run lint"
     }
   },
-  "author": "ckangwen",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "esbuild": "^0.14.21",
+    "kolorist": "^1.5.1",
+    "lodash.clonedeep": "^4.5.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
@@ -51,14 +63,11 @@
     "vitepress": "^0.22.3",
     "vitest": "^0.10.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "engines": {
+    "node": ">=10"
   },
-  "dependencies": {
-    "esbuild": "^0.14.21",
-    "kolorist": "^1.5.1",
-    "lodash.clonedeep": "^4.5.0"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
