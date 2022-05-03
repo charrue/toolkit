@@ -28,6 +28,7 @@ const bundleConfigFile = async (filename: string) => {
                 external: true
               }
             }
+            return {}
           })
         }
       },
