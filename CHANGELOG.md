@@ -1,3 +1,12 @@
+## [0.6.0](https://github.com/charrue/toolkit/compare/v0.5.2...v0.6.2) (2022-05-03)
+
+
+### Features
+
+* **node:** 新增loadConfigFromFile方法 ([b13b0c6](https://github.com/charrue/toolkit/commit/b13b0c6904c9796f07c735988f2acdd1e6319c55))
+
+
+
 ## [0.5.2](https://github.com/charrue/toolkit/compare/v0.3.0...v0.5.2) (2022-05-02)
 
 
