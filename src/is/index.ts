@@ -45,3 +45,7 @@ export const isUndefined = (val: any): boolean => val === undefined;
 export const isDef = (val: any): boolean => !isNull(val) && !isUndefined(val);
 
 export const isUnDef = (val: any): boolean => isNull(val) || isUndefined(val);
+
+export const isPromise = (obj: any): obj is Promise<any> => {
+  return !!obj && typeof obj.then === 'function';
+}
