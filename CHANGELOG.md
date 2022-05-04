@@ -1,3 +1,19 @@
+## [0.7.1](https://github.com/charrue/toolkit/compare/v0.5.2...v0.7.1) (2022-05-04)
+
+
+### Bug Fixes
+
+* **node:** 更新esbuild的打包，不再指定tsconfig.json，而是指定target ([556d148](https://github.com/charrue/toolkit/commit/556d1485244210eebfe722039f7f9c048aec9c29))
+* **node:** 将esbuild设置为rollup的external ([c1148a1](https://github.com/charrue/toolkit/commit/c1148a14e4db15d264267b9f0a0227fc857fe7cb))
+* **node:** 重新导出exec方法 ([91f3aca](https://github.com/charrue/toolkit/commit/91f3aca19847e25b6cb27bb45bbe593dea9339dd))
+
+
+### Features
+
+* **node:** 新增loadConfigFromFile方法 ([b13b0c6](https://github.com/charrue/toolkit/commit/b13b0c6904c9796f07c735988f2acdd1e6319c55))
+
+
+
 ## [0.6.0](https://github.com/charrue/toolkit/compare/v0.5.2...v0.6.2) (2022-05-03)
 
 
