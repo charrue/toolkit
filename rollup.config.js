@@ -16,19 +16,20 @@ const commonPlugins = [
 const input = path.resolve(__dirname, "./src/index.ts");
 const getOutput = (filename) => path.resolve(__dirname, "./dist", filename);
 
+const externals =[
+  "esbuild"
+]
+const globals = {}
+
 const config = [
   {
     input,
     output: {
       file: getOutput("index.cjs.js"),
       format: "cjs",
-      globals: {
-        "vue-demi": "VueDemi",
-      },
+      globals,
     },
-    external(id) {
-      return /^vue/.test(id);
-    },
+    external: externals,
     plugins: commonPlugins,
   },
   {
@@ -36,30 +37,21 @@ const config = [
     output: {
       file: getOutput("index.es.js"),
       format: "es",
-      globals: {
-        "vue-demi": "VueDemi",
-      },
+      globals,
     },
-    external(id) {
-      return /^vue/.test(id);
-    },
+    external: externals,
     plugins: commonPlugins,
   },
   {
     input,
     output: {
       file: getOutput("index.iife.min.js"),
-      name: "CharrueComposable",
+      name: "CharrueToolkit",
       format: "iife",
       extend: true,
-
-      globals: {
-        "vue-demi": "VueDemi",
-      },
+      globals,
     },
-    external(id) {
-      return /^vue/.test(id);
-    },
+    external: externals,
     plugins: [...commonPlugins, minify()],
   },
   {
@@ -79,9 +71,7 @@ const config = [
       file: getOutput("node.js"),
       format: "cjs",
     },
-    external(id) {
-      return /^vue/.test(id);
-    },
+    external: externals,
     plugins: commonPlugins,
   },
   {
