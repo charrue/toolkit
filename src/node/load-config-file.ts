@@ -9,13 +9,13 @@ interface NodeModuleWithCompile extends NodeModule {
 const bundleConfigFile = async (filename: string) => {
   const result = await build({
     entryPoints: [filename],
-    outfile: 'out.js',
-    tsconfig: "tsconfig.node.json",
+    outfile: "out.js",
+    target: ["esnext"],
     absWorkingDir: process.cwd(),
     write: false,
-    platform: 'node',
+    platform: "node",
     bundle: true,
-    format: 'cjs',
+    format: "cjs",
     metafile: true,
     plugins: [
       {
