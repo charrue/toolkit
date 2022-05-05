@@ -1,3 +1,7 @@
+import cloneDeep from "lodash.clonedeep";
+import _merge from "lodash.merge"
+import _mergeWith from "lodash.mergewith"
+
 type PlainObject = Record<string, any>
 
 /**
@@ -38,3 +42,15 @@ export function omit(data: PlainObject, attrs: string[] = []) {
   });
   return result;
 }
+
+
+/**
+ * 深度拷贝
+ * @param raw - 要深拷贝的值
+ * @returns 深拷贝后的值
+ */
+export function deepClone(raw: any) {
+  return cloneDeep(raw);
+}
+export const merge = _merge
+export const mergeWith = _mergeWith
