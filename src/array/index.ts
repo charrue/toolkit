@@ -195,3 +195,25 @@ export const repeat = <T>(
   }
   return array;
 };
+
+
+/**
+ * @description 返回数组中不存在于其他数组中的值
+ */
+export const difference = <T>(...arrays: T[][]): T[] => {
+  return arrays.reduce((a, b) => a.filter(c => !b.includes(c)), [] as T[])
+}
+
+/**
+ * @description 创建一个元素数组，该数组被分成大小长度的组
+ * @param  arr - 原数组
+ * @param  size - 每组的长度
+ * @return 返回分组后的数组
+ */
+export const chunk = <T>(input: T[], size: number): T[][] => {
+  return input.reduce((arr, item, idx) => {
+    return idx % size === 0
+      ? [...arr, [item]]
+      : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]];
+  }, [] as T[][]);
+};
