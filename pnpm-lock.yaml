@@ -6,6 +6,8 @@ specifiers:
   '@rollup/plugin-commonjs': ^21.0.1
   '@rollup/plugin-node-resolve': ^13.1.3
   '@types/lodash.clonedeep': ^4.5.6
+  '@types/lodash.merge': ^4.6.7
+  '@types/lodash.mergewith': ^4.6.7
   '@typescript-eslint/eslint-plugin': ^4.27.0
   '@typescript-eslint/parser': ^4.27.0
   conventional-changelog-cli: ^2.2.2
@@ -15,6 +17,8 @@ specifiers:
   husky: ^6.0.0
   kolorist: ^1.5.1
   lodash.clonedeep: ^4.5.0
+  lodash.merge: ^4.6.2
+  lodash.mergewith: ^4.6.2
   rimraf: ^3.0.2
   rollup: ~2.67.2
   rollup-plugin-dts: ^4.1.0
@@ -29,6 +33,8 @@ dependencies:
   esbuild: 0.14.38
   kolorist: 1.5.1
   lodash.clonedeep: 4.5.0
+  lodash.merge: 4.6.2
+  lodash.mergewith: 4.6.2
 
 devDependencies:
   '@commitlint/cli': 12.1.4
@@ -36,6 +42,8 @@ devDependencies:
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.67.3
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.67.3
   '@types/lodash.clonedeep': 4.5.7
+  '@types/lodash.merge': 4.6.7
+  '@types/lodash.mergewith': 4.6.7
   '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
   '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.4
   conventional-changelog-cli: 2.2.2
@@ -591,6 +599,18 @@ packages:
 
   /@types/lodash.clonedeep/4.5.7:
     resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
+    dependencies:
+      '@types/lodash': 4.14.182
+    dev: true
+
+  /@types/lodash.merge/4.6.7:
+    resolution: {integrity: sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==}
+    dependencies:
+      '@types/lodash': 4.14.182
+    dev: true
+
+  /@types/lodash.mergewith/4.6.7:
+    resolution: {integrity: sha512-3m+lkO5CLRRYU0fhGRp7zbsGi6+BZj0uTVSwvcKU+nSlhjA9/QRNfuSGnD2mX6hQA7ZbmcCkzk5h4ZYGOtk14A==}
     dependencies:
       '@types/lodash': 4.14.182
     dev: true
@@ -2481,7 +2501,10 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: true
+
+  /lodash.mergewith/4.6.2:
+    resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
+    dev: false
 
   /lodash.truncate/4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}

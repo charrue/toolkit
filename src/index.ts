@@ -1,6 +1,5 @@
 export * from "./array";
 export * from "./color";
-export * from "./common";
 export * from "./function";
 export * from "./object";
 export * from "./is";
