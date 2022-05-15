@@ -8,35 +8,46 @@ type PlainObject = Record<string, any>
 type IterableKey = string | number | symbol
 
 /**
- * 判断object是否具有key属性
- * @param { Object } object 需要判断的对象
- * @param { string } key 键名
+ * @description 判断object是否具有key属性。非symbol类型的键名将会强制转为字符串。
+ * @param { Object } object - 需要判断的对象
+ * @param { string } key - 键名
+ * @returns { boolean } 是否具有key属性
+ * @example
+ * const key = Symbol("Key")
+ * const obj = { a: 1, [key]: 2, 100: 100 }
+ *
+ * hasIn(obj, "a") // true
+ * hasIn(obj, key) // true
+ * hasIn(obj, 100) // true
+ * hasIn(obj, "100") // true
+ * hasIn(obj, "101") // false
  */
-export function hasIn(object: PlainObject, key: string): boolean {
+export function hasIn(object: PlainObject, key: IterableKey): boolean {
   return object != null && key in Object(object);
 }
 
 /**
- * 创建一个从 object 中选中一些的属性的对象
+ * @description 创建一个从 object 中选中一些的属性的对象。
  * @param { Array } data 来源对象
  * @param { Array } attrs 选出的属性
+ * @returns { Object } 属性筛选后的对象
  */
-export function pick(data: PlainObject, attrs: string[] = []) {
-  const result: PlainObject = {};
+export function pick(data: Record<IterableKey, any>, attrs: IterableKey[] = []) {
+  const result: Record<IterableKey, any> = {};
+  if (!Array.isArray(attrs)) return result;
+
   attrs.forEach((attr) => {
-    if (typeof data[attr] !== "undefined") {
-      result[attr] = data[attr];
-    }
+    result[attr] = data[attr];
   });
   return result;
 }
 
 /**
- * 创建一个从 object 中排除一些的属性的对象
+ * @description 创建一个从 object 中排除一些的属性的对象。
  * @param { Array } data 来源对象
  * @param { Array } attrs 排除的属性
  */
-export function omit(data: PlainObject, attrs: string[] = []) {
+export function omit(data: Record<IterableKey, any>, attrs: IterableKey[] = []) {
   const result = {
     ...data,
   };
@@ -46,16 +57,96 @@ export function omit(data: PlainObject, attrs: string[] = []) {
   return result;
 }
 
-
 /**
  * 深度拷贝
  * @param raw - 要深拷贝的值
+ * @from https://github.com/davidmarkclements/rfdc
  * @returns 深拷贝后的值
  */
-export function deepClone(raw: any) {
-  return cloneDeep(raw);
+export const deepClone = <T>(raw: T): T => {
+  const refs: any[] = []
+  const refsNew: any[] = []
+
+  const baseClone = <T extends any>(raw: T, proto: boolean = false): T => {
+    if (typeof raw !== "object" || isUnDef(raw)) return raw;
+
+    if (raw instanceof Date) return new Date(raw) as T
+
+    if (Array.isArray(raw)) return baseCloneArray(raw) as T
+
+    if (raw instanceof Map) return new Map(baseClone(raw)) as T
+
+    if (raw instanceof Set) return new Set(baseClone(raw)) as T
+
+    const result: Record<string, any> = {}
+    refs.push(raw)
+    refsNew.push(result)
+    for (let k in raw) {
+      if (proto) {
+        if (Object.hasOwnProperty.call(raw, k) === false) continue
+      }
+
+      let cur = raw[k]
+      if (typeof cur !== "object" || isUnDef(cur)) {
+        result[k] = cur
+      } else if (cur instanceof Date) {
+        result[k] = new Date(cur)
+      } else if (cur instanceof Map) {
+        result[k] = new Map(baseClone(cur))
+      } else if (cur instanceof Set) {
+        result[k] = new Set(baseClone(cur))
+      } else if (ArrayBuffer.isView(cur)) {
+        result[k] = baseCopyBuffer(cur)
+      } else {
+        // 如果是循环引用
+        const index = refs.indexOf(cur)
+        if (index !== -1) {
+          result[k] = cur
+        } else {
+          result[k] = baseClone(cur)
+        }
+      }
+    }
+
+    refs.pop()
+    refsNew.pop()
+
+    return result as T
+  }
+
+  const baseCopyBuffer = (raw: any) => {
+    if (raw instanceof Buffer) {
+      return Buffer.from(raw)
+    }
+
+    return new raw.constructor(raw.buffer.slice(), raw.byteOffset, raw.length)
+  }
+
+  const baseCloneArray = <T>(raw: T[]): T[] => {
+    return raw.map((val) => {
+      if (typeof val !== "object" || isUnDef(val)) {
+        return val
+      } else if (val instanceof Date) {
+        return new Date(val)
+      } else if (ArrayBuffer.isView(val)) {
+        return baseCopyBuffer(val)
+      } else {
+        // 如果是循环引用
+        const index = refs.indexOf(val)
+        if (index !== -1) {
+          return val
+        } else {
+          return baseClone(val)
+        }
+      }
+    }) as T[]
+  }
+
+  return baseClone(raw)
 }
+
 export const merge = _merge
+
 export const mergeWith = _mergeWith
 
 /**
