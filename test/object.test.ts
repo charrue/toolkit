@@ -47,19 +47,50 @@ describe("object", () => {
       expect(deepClone(symbolKey)).toBe(symbolKey)
     })
 
-    test("date", () => {})
-    test("function", () => {})
-    test("generator function", () => {})
-    test("async function", () => {})
-    test("map", () => {})
-    test("set", () => {})
-    test("buffer", () => {})
-    test("nested map", () => {})
-    test("nested set", () => {})
+    test("date", () => {
+      expect(deepClone(new Date("2020-01-01"))).toEqual(new Date("2020-01-01"))
+    })
+    test("function", () => {
+      const fn = () => {
+        //
+      }
+      expect(deepClone(fn)).toEqual(fn)
+    })
+    test("generator function", () => {
+      const fn = function* () {
+        yield 123
+      }
+      expect(deepClone(fn)).toEqual(fn)
+    })
+    test("async function", () => {
+      const fn = async function () {
+        return 123
+      }
+      expect(deepClone(fn)).toEqual(fn)
+    })
+    test("map", () => {
+      const map = new Map([['a', 1]])
+      expect(deepClone(map)).toEqual(map)
+    })
+    test("set", () => {
+      const set = new Set([1, 2])
+      expect(deepClone(set)).toEqual(set)
+    })
+    test("buffer", () => {
+      const buffer = Buffer.from(Date.now().toString(36))
+      expect(deepClone({ buffer })).toEqual({ buffer })
+    })
+    test("nested map", () => {
+      const map = new Map([["a", { b: 3 }], ["b", { c: 2 }]])
+      expect(deepClone(map)).toEqual(map)
+    })
+    test("nested set", () => {
+      const set = new Set([{ a: 1 }, { b: 2 }])
+      expect(deepClone(set)).toEqual(set)
+    })
 
     test("shallow object", () => {
       expect(deepClone({})).toEqual({})
-      const symbolKey = Symbol("Key")
       const plainObject = {
         a: 1,
         b: "2",
@@ -70,9 +101,33 @@ describe("object", () => {
       expect(deepClone(plainObject)).toEqual(plainObject)
     })
 
-    test("shallow array", () => {})
-    test("deep object", () => {})
-    test("deep array", () => {})
+    test("shallow array", () => {
+      expect(deepClone([])).toEqual([])
+      const plainArray = [1, "2", false, null, undefined]
+      expect(deepClone(plainArray)).toEqual(plainArray)
+    })
+    test("deep object", () => {
+      const obj = {
+        a: {
+          b: {
+            c: 1
+          }
+        },
+        d: 4
+      }
 
+      expect(deepClone(obj)).toEqual(obj)
+    })
+    test("deep array", () => {
+      const arr = [
+        1,
+        [2, 3],
+        {
+          a: 1,
+          b: 3
+        }
+      ]
+      expect(deepClone(arr)).toEqual(arr)
+    })
   })
 })
