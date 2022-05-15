@@ -1,5 +1,4 @@
 import { isFn } from './../is/index';
-import cloneDeep from "lodash.clonedeep";
 import _merge from "lodash.merge"
 import _mergeWith from "lodash.mergewith"
 import { isUnDef, isStr, isNum, isSymbol } from '../is/index';
@@ -74,9 +73,9 @@ export const deepClone = <T>(raw: T): T => {
 
     if (Array.isArray(raw)) return baseCloneArray(raw) as T
 
-    if (raw instanceof Map) return new Map(baseClone(raw)) as T
+    if (raw instanceof Map) return new Map(baseClone(Array.from(raw))) as T
 
-    if (raw instanceof Set) return new Set(baseClone(raw)) as T
+    if (raw instanceof Set) return new Set(baseClone(Array.from(raw))) as T
 
     const result: Record<string, any> = {}
     refs.push(raw)
