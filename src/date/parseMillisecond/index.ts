@@ -8,6 +8,16 @@ import {
   ONE_MONTH
 } from "../constants"
 
+type Unit =
+  | "year"
+  | "month"
+  | "week"
+  | "day"
+  | "hour"
+  | "minute"
+  | "second"
+  | "millisecond";
+
 /**
  * @description 将毫秒数转换为年、月、周、天、小时、分钟、秒、毫秒
  * @param {number} seconds 秒数
@@ -21,9 +31,7 @@ import {
  */
 export const parseMillisecond = (
   millisecondValue: number,
-  unit?: Partial<
-    Record<"year" | "month" | "week" | "day" | "hour" | "minute" | "second" | "millisecond", boolean>
-  >
+  unit?: Partial<Record<Unit, boolean>>
 ) => {
   let millisecond = millisecondValue
   let result = {
