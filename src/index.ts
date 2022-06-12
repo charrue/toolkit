@@ -8,5 +8,5 @@ export * from "./browser";
 export * from "./date";
 export * from "./string";
 export * from "./async";
-
+export * from "./utilities";
 export * from "./validate";
