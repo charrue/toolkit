@@ -1,14 +1,10 @@
 {
   "name": "@charrue/toolkit",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "homepage": "https://github.com/charrue/toolkit",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/charrue/toolkit.git"
-  },
-  "exports": {
-    ".": "./dist/index.cjs.js",
-    "./node": "./dist/node.js"
   },
   "license": "MIT",
   "author": "ckangwen",
