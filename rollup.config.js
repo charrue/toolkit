@@ -64,26 +64,6 @@ const config = [
     ],
     plugins: [dts()],
   },
-  // 将node模块的文件单独打包
-  {
-    input: path.resolve(__dirname, "./src/node/index.ts"),
-    output: {
-      file: getOutput("node.js"),
-      format: "cjs",
-    },
-    external: externals,
-    plugins: commonPlugins,
-  },
-  {
-    input: path.resolve(__dirname, "./src/node/index.ts"),
-    output: [
-      {
-        format: "es",
-        file: getOutput("node.d.ts"),
-      },
-    ],
-    plugins: [dts()],
-  },
 ];
 
 rimraf.sync("./dist");
