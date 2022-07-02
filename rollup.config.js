@@ -2,69 +2,66 @@ import path from "path";
 import rimraf from "rimraf";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonJs from "@rollup/plugin-commonjs";
-import esbuild, { minify } from "rollup-plugin-esbuild";
-import dts from "rollup-plugin-dts";
-
-const commonPlugins = [
-  esbuild({
-    target: "es2015",
-  }),
-  nodeResolve(),
-  commonJs(),
-];
+import typescript from "@rollup/plugin-typescript";
+import { terser } from "rollup-plugin-terser";
+import pkg from "./package.json";
 
 const input = path.resolve(__dirname, "./src/index.ts");
 const getOutput = (filename) => path.resolve(__dirname, "./dist", filename);
 
-const externals =[
-  "esbuild"
+const plugins = [
+  typescript({
+    include: ["src/**/*.ts"],
+    exclude: ["/__tests__/**/*"],
+    sourceMap: false,
+    declaration: true,
+    declarationDir: path.resolve(__dirname, "dist"),
+  }),
+  nodeResolve({ preferBuiltins: true }),
+  commonJs(),
 ]
-const globals = {}
 
-const config = [
-  {
+const rollupConfigs = {
+  cjs: {
+    module: "CommonJS",
+    format: "cjs",
+    ext: "js",
+  },
+  esm: {
+    module: "ESNext",
+    format: "esm",
+    ext: "mjs",
+  },
+};
+
+const external = Object.keys(pkg.dependencies);
+
+const bundleConfig = Object.entries(rollupConfigs).map(([mod, moduleConfig]) => {
+  return {
     input,
     output: {
-      file: getOutput("index.cjs.js"),
-      format: "cjs",
-      globals,
+      dir: path.resolve(__dirname, "dist"),
+      format: mod,
+      exports: module === "cjs" ? "named" : undefined,
+      entryFileNames: `[name].${moduleConfig.ext}`,
     },
-    external: externals,
-    plugins: commonPlugins,
+    external,
+    plugins,
+  };
+});
+
+const minifyConfig =   {
+  input,
+  output: {
+    file: getOutput("index.iife.min.js"),
+    name: "CharrueToolkit",
+    format: "iife",
+    extend: true,
   },
-  {
-    input,
-    output: {
-      file: getOutput("index.es.js"),
-      format: "es",
-      globals,
-    },
-    external: externals,
-    plugins: commonPlugins,
-  },
-  {
-    input,
-    output: {
-      file: getOutput("index.iife.min.js"),
-      name: "CharrueToolkit",
-      format: "iife",
-      extend: true,
-      globals,
-    },
-    external: externals,
-    plugins: [...commonPlugins, minify()],
-  },
-  {
-    input: "src/index.ts",
-    output: [
-      {
-        format: "es",
-        file: getOutput("index.d.ts"),
-      },
-    ],
-    plugins: [dts()],
-  },
-];
+  plugins: [...plugins, terser()],
+}
+
+const config = bundleConfig.concat(minifyConfig);
 
 rimraf.sync("./dist");
 export default config;
