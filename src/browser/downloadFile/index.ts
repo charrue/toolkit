@@ -1,4 +1,4 @@
-export const inBrowser = typeof window !== "undefined";
+import { inBrowser } from '../inBrowser/index';
 
 type DownloadFileEventType = {
   beforeDownload?: (xhr: XMLHttpRequest) => void;
