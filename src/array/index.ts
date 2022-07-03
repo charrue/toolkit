@@ -1,9 +1,3 @@
-/* eslint-disable no-param-reassign */
-interface IArrayLike<T> {
-  length: number;
-  [n: number]: T;
-}
-
 /**
  * @description 反向遍历数组
  * @param  arr - 需要遍历的数组
@@ -11,8 +5,8 @@ interface IArrayLike<T> {
  * @param  thisArg - callbackfn的this指向，默认是undefined
  */
 export const forEachRight = <T, C = any>(
-  arr: IArrayLike<T>,
-  callbackfn: (value: T, index: number, self: IArrayLike<T>) => void,
+  arr: T[],
+  callbackfn: (value: T, index: number, self: T[]) => void,
   context?: C,
 ): void => {
   const l = arr.length;
@@ -85,12 +79,7 @@ export const findRight = <T, C>(
  * @description 清空数组
  * @param  arr - 需要清空的数组
  */
-export const clear = <T>(arr: IArrayLike<T>): void => {
-  if (!Array.isArray(arr)) {
-    for (let i = arr.length - 1;i >= 0;i--) {
-      delete arr[i];
-    }
-  }
+export const clear = <T>(arr: T[]): void => {
   arr.length = 0;
 };
 
@@ -103,7 +92,7 @@ export const clear = <T>(arr: IArrayLike<T>): void => {
  */
 export const removeIf = <T, C>(
   arr: T[],
-  callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
+  callbackfn: (value: T, index: number, array: T[]) => unknown,
   thisArg?: C,
 ): T => {
   const index = arr.findIndex(callbackfn, thisArg);
@@ -123,7 +112,7 @@ export const removeIf = <T, C>(
  */
 export const removeAllIf = <T, C>(
   originArray: T[],
-  callbackfn: (value: T, index: number, array: IArrayLike<T>) => unknown,
+  callbackfn: (value: T, index: number, array: T[]) => unknown,
   thisArg?: C,
 ): T[] => {
   const arr = ([] as T[]).concat(originArray);
@@ -137,6 +126,10 @@ export const removeAllIf = <T, C>(
   return removedArr;
 };
 
+interface IArrayLike<T> {
+  length: number;
+  [n: number]: T;
+}
 /**
  * @description 将一个类数组转换为数组类型
  * @param  arr - 类数组
