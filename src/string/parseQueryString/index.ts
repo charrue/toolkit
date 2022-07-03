@@ -20,7 +20,7 @@ export const parseQueryString = (queryString: string) => {
     .reduce((prev, cur) => {
       const kv = cur.split("=")
       let key = decodeURIComponent(kv[0])
-      let value = kv[1] === undefined ? null : decodeURIComponent(kv[1])
+      let value = kv[1] === undefined ? null : decodeURIComponent(kv.slice(1).join("="))
 
       if (!prev.hasOwnProperty(key)) {
         prev[key] = value
