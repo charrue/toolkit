@@ -62,11 +62,8 @@ export const isControlCode = (key: number | string) => {
 }
 
 /**
- * @description
- * 判断ASCII字符或Unicode码点是否是可打印字符
- *
- * 可打印字符包括 字母、数字、标点符号和一些杂项符号。
- * @param key - ASCII字符或Unicode 码点
+ * @description 判断ASCII字符或Unicode码点是否是可打印字符。可打印字符包括 字母、数字、标点符号和一些杂项符号。
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isPrintableCode = (key: number | string) => {
   return detectASCIICode(key, PRINTABLE_CODE_FIRST, PRINTABLE_CODE_LAST)
@@ -74,7 +71,7 @@ export const isPrintableCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是数字
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isDigitCode = (key: number | string) => {
   return detectASCIICode(key, DIGIT_CODE_FIRST, DIGIT_CODE_LAST)
@@ -82,7 +79,7 @@ export const isDigitCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是大写字母
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isUpperCaseCode = (key: number | string) => {
   return detectASCIICode(key, UPPERCASE_CODE_FIRST, UPPERCASE_CODE_LAST)
@@ -90,7 +87,7 @@ export const isUpperCaseCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是小写字母
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isLowerCaseCode = (key: number | string) => {
   return detectASCIICode(key, LOWERCASE_CODE_FIRST, LOWERCASE_CODE_LAST)
@@ -98,7 +95,7 @@ export const isLowerCaseCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是空白节点
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isWhiteSpaceCode = (key: number | string) => {
   let code = key;
@@ -111,7 +108,7 @@ export const isWhiteSpaceCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是字母
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isLetterCode = (key: number | string) => {
   return isUpperCaseCode(key) || isLowerCaseCode(key)
@@ -119,7 +116,7 @@ export const isLetterCode = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是标点符号
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isPunctuation = (key: number | string) => {
   return isPrintableCode(key)
@@ -129,7 +126,7 @@ export const isPunctuation = (key: number | string) => {
 
 /**
  * @description 判断ASCII字符或Unicode码点是否是数字或字母
- * @param key - ASCII字符或Unicode 码点
+ * @param { number | string } key - ASCII字符或Unicode 码点
  */
 export const isAlphanumeric = (key: number | string) => {
   return isLetterCode(key) || isDigitCode(key)

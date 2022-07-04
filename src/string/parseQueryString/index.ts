@@ -1,6 +1,6 @@
 /**
  * @description 解析查询参数
- * @param {string} queryString - 查询参数字符串
+ * @param { string } queryString - 查询参数字符串
  * @returns {object} 解析后的对象
  */
 export const parseQueryString = (queryString: string) => {
@@ -19,8 +19,8 @@ export const parseQueryString = (queryString: string) => {
     .split("&")
     .reduce((prev, cur) => {
       const kv = cur.split("=")
-      let key = decodeURIComponent(kv[0])
-      let value = kv[1] === undefined ? null : decodeURIComponent(kv.slice(1).join("="))
+      const key = decodeURIComponent(kv[0])
+      const value = kv[1] === undefined ? null : decodeURIComponent(kv.slice(1).join("="))
 
       if (!prev.hasOwnProperty(key)) {
         prev[key] = value
