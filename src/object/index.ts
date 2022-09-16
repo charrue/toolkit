@@ -3,6 +3,7 @@ export * from "./forEachObjIndexed";
 export * from "./has";
 export * from "./hasPath";
 export * from "./invert";
+export * from "./isEqual";
 export * from "./merge";
 export * from "./mergeWith";
 export * from "./omit";
