@@ -15,9 +15,52 @@ describe("parseQueryString", () => {
     });
   });
 
-  test("common query string", () => {
+  test("parses a simple string", () => {
+    expect(parseQueryString("0=foo")).toEqual({
+      0: "foo",
+    });
+
+    expect(parseQueryString("foo=c++")).toEqual({
+      foo: "c  ",
+    });
+
+    expect(parseQueryString("foo")).toEqual({
+      foo: null,
+    });
+
+    expect(parseQueryString("foo=")).toEqual({
+      foo: "",
+    });
+
     expect(parseQueryString("foo=bar")).toEqual({
       foo: "bar",
+    });
+
+    expect(parseQueryString("foo=bar=baz")).toEqual({
+      foo: "bar=baz",
+    });
+
+    expect(parseQueryString("foo=bar&bar=baz")).toEqual({
+      foo: "bar",
+      bar: "baz",
+    });
+
+    expect(parseQueryString("foo=bar&baz")).toEqual({
+      foo: "bar",
+      baz: null,
+    });
+
+    expect(parseQueryString("a[]=b&a[]=c")).toEqual({
+      "a[]": ["b", "c"],
+    });
+
+    expect(
+      parseQueryString("cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World")
+    ).toEqual({
+      cht: "p3",
+      chd: "t:60,40",
+      chs: "250x100",
+      chl: "Hello|World",
     });
   });
 
@@ -25,6 +68,9 @@ describe("parseQueryString", () => {
     expect(parseQueryString("foo=bar&key=val")).toEqual({
       foo: "bar",
       key: "val",
+    });
+    expect(parseQueryString("foo=bar&foo=val")).toEqual({
+      foo: ["bar", "val"],
     });
   });
 
