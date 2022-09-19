@@ -1,15 +1,15 @@
 import { describe, test, expect } from 'vitest';
-import { hasIn, pick, omit, deepClone } from '../src/object/index';
+import { has, pick, omit, deepClone } from '../src/object/index';
 
 describe("object", () => {
   test("hasIn", () => {
     const key = Symbol("Key")
     const obj = { a: 1, [key]: 2, 100: 100 }
-    expect(hasIn(obj, "a")).toBe(true)
-    expect(hasIn(obj, key)).toBe(true)
-    expect(hasIn(obj, 100)).toBe(true)
-    expect(hasIn(obj, "100")).toBe(true)
-    expect(hasIn(obj, "101")).toBe(false)
+    expect(has(obj, "a")).toBe(true)
+    expect(has(obj, key)).toBe(true)
+    expect(has(obj, 100)).toBe(true)
+    expect(has(obj, "100")).toBe(true)
+    expect(has(obj, "101")).toBe(false)
   })
 
   test("pick", () => {
@@ -75,10 +75,6 @@ describe("object", () => {
     test("set", () => {
       const set = new Set([1, 2])
       expect(deepClone(set)).toEqual(set)
-    })
-    test("buffer", () => {
-      const buffer = Buffer.from(Date.now().toString(36))
-      expect(deepClone({ buffer })).toEqual({ buffer })
     })
     test("nested map", () => {
       const map = new Map([["a", { b: 3 }], ["b", { c: 2 }]])
