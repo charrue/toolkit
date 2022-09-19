@@ -1,22 +1,27 @@
+/* eslint-disable no-unused-expressions */
 function toVal(mix: any) {
-  let k, y, str='';
+  let y = "";
+  let str = "";
 
-  if (typeof mix === 'string' || typeof mix === 'number') {
+  if (typeof mix === "string" || typeof mix === "number") {
     str += mix;
-  } else if (typeof mix === 'object') {
+  }
+  else if (typeof mix === "object") {
     if (Array.isArray(mix)) {
-      for (k=0; k < mix.length; k++) {
+      for (let k = 0;k < mix.length;k += 1) {
         if (mix[k]) {
-          if (y = toVal(mix[k])) {
-            str && (str += ' ');
+          y = toVal(mix[k]);
+          if (y) {
+            str && (str += " ");
             str += y;
           }
         }
       }
-    } else {
-      for (k in mix) {
+    }
+    else {
+      for (const k in mix) {
         if (mix[k]) {
-          str && (str += ' ');
+          str && (str += " ");
           str += k;
         }
       }
@@ -27,14 +32,20 @@ function toVal(mix: any) {
 }
 
 export const classname = (...args: any[]) => {
-  let i=0, tmp, x, str='';
+  let i = 0;
+  let tmp = "";
+  let x = "";
+  let str = "";
   while (i < args.length) {
-    if (tmp = args[i++]) {
-      if (x = toVal(tmp)) {
-        str && (str += ' ');
-        str += x
+    i += 1;
+    tmp = args[i];
+    if (tmp) {
+      x = toVal(tmp);
+      if (x) {
+        str && (str += " ");
+        str += x;
       }
     }
   }
   return str;
-}
+};

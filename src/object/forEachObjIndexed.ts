@@ -1,5 +1,5 @@
-import { IterableKey } from "./type";
-import { isFn } from '../is/index';
+import type { IterableKey } from "./type";
+import { isFn } from "../is/index";
 
 /**
  * @description 遍历 object，对 object 中的每对 key 和 value 执行方法 callback。
@@ -10,14 +10,14 @@ import { isFn } from '../is/index';
 export const forEachObjIndexed = <
   T extends Record<IterableKey, any>,
   Iterator extends (key: keyof T, value: T[keyof T], obj: T) => void,
-  B extends boolean = false
+  B extends boolean = false,
 >(obj: T, callback: Iterator, symbol?: B) => {
-  const keys = symbol ? Object.getOwnPropertySymbols(obj) : Object.keys(obj)
-  if (keys.length === 0) return
+  const keys = symbol ? Object.getOwnPropertySymbols(obj) : Object.keys(obj);
+  if (keys.length === 0) return;
 
-  keys.forEach(k => {
+  keys.forEach((k) => {
     if (isFn(callback)) {
-      callback(k, obj[k], obj)
+      callback(k, obj[k], obj);
     }
-  })
-}
+  });
+};

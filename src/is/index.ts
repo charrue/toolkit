@@ -1,9 +1,7 @@
 export const getType = (obj: any): string => Object.prototype.toString.call(obj);
 
 const isType = <T>(type: string | string[]) => (obj: unknown): obj is T => obj != null
-    && (Array.isArray(type) ? type : [type]).some(
-      (t) => getType(obj) === `[object ${t}]`,
-    );
+    && (Array.isArray(type) ? type : [ type ]).some((t) => getType(obj) === `[object ${t}]`);
 
 export const isWindow = isType<Window>("Window");
 export const isHTMLElement = (obj: any): obj is HTMLElement => obj?.nodeName || obj?.tagName;
@@ -46,6 +44,4 @@ export const isDef = (val: any): boolean => !isNull(val) && !isUndefined(val);
 
 export const isUnDef = (val: any): boolean => isNull(val) || isUndefined(val);
 
-export const isPromise = (obj: any): obj is Promise<any> => {
-  return !!obj && typeof obj.then === 'function';
-}
+export const isPromise = (obj: any): obj is Promise<any> => !!obj && typeof obj.then === "function";

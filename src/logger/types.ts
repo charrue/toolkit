@@ -5,12 +5,12 @@ export interface LogOptions {
   /**
    * 输出之前清屏
    */
-  clear?: boolean;
+  clear?: boolean
   /**
    * 输出的内容是否带有颜色
    */
-  color?: boolean;
-  timestamp?: boolean;
+  color?: boolean
+  timestamp?: boolean
 }
 
 export interface Logger {

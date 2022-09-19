@@ -1,4 +1,4 @@
-import { IterableKey } from "./type";
+import type { IterableKey } from "./type";
 
 /**
  * @description 创建一个从 object 中排除一些的属性的对象。

@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /**
  * @description 反向遍历数组
  * @param { T[] }  arr - 需要遍历的数组
@@ -113,6 +114,7 @@ export const findRight = <T, C>(
  * clear(arr) // arr: []
  */
 export const clear = <T>(arr: T[]): void => {
+  // eslint-disable-next-line no-param-reassign
   arr.length = 0;
 };
 
@@ -172,8 +174,8 @@ export const removeAllIf = <T, C>(
 };
 
 interface IArrayLike<T> {
-  length: number;
-  [n: number]: T;
+  length: number
+  [n: number]: T
 }
 /**
  * @description 将一个类数组转换为数组类型
@@ -191,7 +193,7 @@ export const toArray = <T>(arrayLike: IArrayLike<T>): T[] => {
   if (arrayLike.length === 0) return [];
 
   if (typeof arrayLike === "string") {
-    return [...arrayLike];
+    return [ ...arrayLike ];
   }
 
   const { length } = arrayLike;
@@ -202,7 +204,7 @@ export const toArray = <T>(arrayLike: IArrayLike<T>): T[] => {
     for (const k in arrayLike) {
       if (arrayLike.hasOwnProperty(k) && k !== "length") {
         arr[index] = arrayLike[k];
-        index++
+        index++;
       }
     }
   }
@@ -245,7 +247,6 @@ export const repeat = <T>(
   return array;
 };
 
-
 /**
  * @description 返回数组中不存在于其他数组中的值
  * @param { * } arr 任意要检查的多个数组
@@ -254,9 +255,8 @@ export const repeat = <T>(
  * difference([3, 2, 1], [4, 2]);
  * // [3, 1]
  */
-export const difference = <T>(...arrays: T[][]): T[] => {
-  return arrays.reduce((a, b) => a.filter(c => !b.includes(c)), [] as T[])
-}
+// eslint-disable-next-line max-len
+export const difference = <T>(...arrays: T[][]): T[] => arrays.reduce((a, b) => a.filter((c) => !b.includes(c)), [] as T[]);
 
 /**
  * @description 创建一个元素数组，该数组被分成大小长度的组
@@ -267,10 +267,7 @@ export const difference = <T>(...arrays: T[][]): T[] => {
  * chunk(['a', 'b', 'c', 'd'], 2);
  * // => [['a', 'b'], ['c', 'd']]
  */
-export const chunk = <T>(input: T[], size: number): T[][] => {
-  return input.reduce((arr, item, idx) => {
-    return idx % size === 0
-      ? [...arr, [item]]
-      : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]];
-  }, [] as T[][]);
-};
+// eslint-disable-next-line max-len
+export const chunk = <T>(input: T[], size: number): T[][] => input.reduce((arr, item, idx) => (idx % size === 0
+  ? [...arr, [ item ] ]
+  : [...arr.slice(0, -1), [...arr.slice(-1)[0], item] ]), [] as T[][]);

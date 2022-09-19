@@ -1,22 +1,22 @@
-import { ONE_SECOND, ONE_DAY, ONE_MINUTE } from '../../date/constants';
+import { ONE_SECOND, ONE_DAY, ONE_MINUTE } from "../../date/constants";
 
-export type RetryAction = {
-  retry(err: Error): void;
-  getErrors(): Error[];
-  getCounts(): number;
+export interface RetryAction {
+  retry(err: Error): void
+  getErrors(): Error[]
+  getCounts(): number
 }
 
-type RetryOptions = {
-  retry?: number;
-  factor?: number;
-  minTimeout?: number;
-  maxTimeout?: number;
-  maxRetryTime?: number;
+interface RetryOptions {
+  retry?: number
+  factor?: number
+  minTimeout?: number
+  maxTimeout?: number
+  maxRetryTime?: number
 }
 
-export type OriginFunctionWithPayload<T> = (params: { payload: T, actions: RetryAction }) => void
+export type OriginFunctionWithPayload<T> = (params: { payload: T; actions: RetryAction }) => void
 
-export const createRetry = <P extends any>(
+export const createRetry = <P extends object>(
   originFn: OriginFunctionWithPayload<P>,
   options: RetryOptions = {},
 ) => {
@@ -25,60 +25,72 @@ export const createRetry = <P extends any>(
     minTimeout = ONE_SECOND,
     maxTimeout = ONE_DAY,
     factor = 2,
-    maxRetryTime = ONE_MINUTE
-  } = options
+    maxRetryTime = ONE_MINUTE,
+  } = options;
 
-  let timeoutId: any | null = null
-  let callCount = 1
-  let errors: Error[] = []
-  const random = Math.random() + 1
-  let startTime: number = new Date().getTime()
-  let cachedPayload: P | null = null
+  let timeoutId: any | null = null;
+  let callCount = 1;
+  const errors: Error[] = [];
+  const random = Math.random() + 1;
+  let startTime: number = new Date().getTime();
+  let cachedPayload: P | null = null;
 
   const timeouts = Array.from({ length: retryCount }).map((_, index) => {
-    const t = Math.round(random * Math.max(minTimeout, 1) * Math.pow(factor, index))
-    return Math.min(t, maxTimeout)
-  })
+    // eslint-disable-next-line no-restricted-properties
+    const t = Math.round(random * Math.max(minTimeout, 1) * Math.pow(factor, index));
+    return Math.min(t, maxTimeout);
+  });
+
+  const actions = {
+    getErrors() {
+      return errors;
+    },
+    getCounts() {
+      return callCount;
+    },
+  };
 
   const retry = (err: Error) => {
     if (timeoutId) {
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
     }
-    if (!err) return false
+    if (!err) return false;
 
-    errors.push(err)
-    const currentTime = new Date().getTime()
+    errors.push(err);
+    const currentTime = new Date().getTime();
 
     if (err && currentTime - startTime >= maxRetryTime) {
-      errors.unshift(new Error('RetryOperation timeout occurred'))
-      return false
+      errors.unshift(new Error("RetryOperation timeout occurred"));
+      return false;
     }
 
-    const curTimeout = timeouts.shift()
-    if (!curTimeout) return false
+    const curTimeout = timeouts.shift();
+    if (!curTimeout) return false;
 
     timeoutId = setTimeout(() => {
       callCount += 1;
-      originFn({ payload: cachedPayload!, actions })
-    }, curTimeout)
+      originFn({
+        payload: cachedPayload!,
+        actions: {
+          ...actions,
+          retry,
+        },
+      });
+    }, curTimeout);
 
-    return true
-  }
-
-  const actions = {
-    retry,
-    getErrors() {
-      return errors
-    },
-    getCounts() {
-      return callCount
-    }
-  }
+    return true;
+  };
 
   return (payload: P) => {
-    startTime = new Date().getTime()
-    cachedPayload = payload
+    startTime = new Date().getTime();
+    cachedPayload = payload;
 
-    originFn({ payload, actions })
-  }
-}
+    originFn({
+      payload,
+      actions: {
+        ...actions,
+        retry,
+      },
+    });
+  };
+};

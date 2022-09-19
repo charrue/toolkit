@@ -54,9 +54,7 @@ describe("parseQueryString", () => {
       "a[]": ["b", "c"],
     });
 
-    expect(
-      parseQueryString("cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World")
-    ).toEqual({
+    expect(parseQueryString("cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World")).toEqual({
       cht: "p3",
       chd: "t:60,40",
       chs: "250x100",

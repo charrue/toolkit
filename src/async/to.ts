@@ -7,7 +7,7 @@ export function to<D, E = Error>(
     .then<[D, null]>((data: D) => [data, null])
     .catch<[undefined, E]>((err: E) => {
       if (errorExt) {
-        Object.assign(err, errorExt);
+        Object.assign(err as any, errorExt);
       }
       return [undefined, err];
     });

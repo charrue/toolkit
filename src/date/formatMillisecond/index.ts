@@ -1,5 +1,5 @@
-import { parseMillisecond } from '../parseMillisecond/index';
-import { padStart } from '../../string/index';
+import { parseMillisecond } from "../parseMillisecond/index";
+import { padStart } from "../../string/index";
 
 type SecondFormatUnit = "Y" | "M" | "MM" | "D" | "DD" | "H" | "HH" | "m" | "mm" | "s" | "ss" | "SSS"
 
@@ -10,7 +10,7 @@ const REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|
  * @param millisecond 毫秒数
  * @param formatter 格式化字符串，默认是 HH:mm:ss
  */
-export const formatMillisecond = (millisecond: number, formatter: string = "HH:mm:ss") => {
+export const formatMillisecond = (millisecond: number, formatter = "HH:mm:ss") => {
   const {
     years,
     months,
@@ -40,4 +40,4 @@ export const formatMillisecond = (millisecond: number, formatter: string = "HH:m
     REGEX_FORMAT,
     (match: string, $1: string) => $1 || matches[match as SecondFormatUnit],
   );
-}
+};

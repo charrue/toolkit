@@ -1,5 +1,5 @@
-import { isUnDef } from '../is/index';
-import { IterableKey } from "./type";
+import { isUnDef } from "../is/index";
+import type { IterableKey } from "./type";
 
 /**
  * @description 检查对象中是否存在指定的属性。只检查对象自身的属性。
@@ -15,7 +15,7 @@ import { IterableKey } from "./type";
  * has(obj, "4") // false
  */
 export const has = <T = Record<IterableKey, any>>(obj: T, key: IterableKey) => {
-  if (isUnDef(obj) || isUnDef(key)) return false
+  if (isUnDef(obj) || isUnDef(key)) return false;
 
-  return Object.prototype.hasOwnProperty.call(obj, key)
-}
+  return Object.prototype.hasOwnProperty.call(obj, key);
+};

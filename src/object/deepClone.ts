@@ -1,4 +1,5 @@
 import { isUnDef } from "../is/index";
+import { has } from "./has";
 
 const cloneRegExp = (reg: RegExp) => {
   const pattern = reg.source;
@@ -26,10 +27,38 @@ const cloneRegExp = (reg: RegExp) => {
  * @from https://github.com/davidmarkclements/rfdc
  * @returns 深拷贝后的值
  */
-export const deepClone = <T>(raw: T): T => {
+export const deepClone = <K>(obj: K): K => {
   const refs: any[] = [];
   const refsNew: any[] = [];
 
+  const baseCopyBuffer = (buffer: any) => {
+    if (buffer instanceof Buffer) {
+      return Buffer.from(buffer);
+    }
+
+    return new buffer.constructor(buffer.buffer.slice(), buffer.byteOffset, buffer.length);
+  };
+
+  const baseCloneArray = <T>(arr: T[]): T[] => arr.map((val) => {
+    if (typeof val !== "object" || isUnDef(val)) {
+      return val;
+    }
+    if (val instanceof Date) {
+      return new Date(val);
+    }
+    if (ArrayBuffer.isView(val)) {
+      return baseCopyBuffer(val);
+    }
+    // 如果是循环引用
+    const index = refs.indexOf(val);
+    if (index !== -1) {
+      return val;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return baseClone(val);
+  }) as T[];
+
+  // eslint-disable-next-line max-statements
   const baseClone = <T>(raw: T, proto = false): any => {
     if (typeof raw !== "object" || isUnDef(raw)) return raw;
 
@@ -62,32 +91,44 @@ export const deepClone = <T>(raw: T): T => {
     refsNew.push(result);
     for (const k in raw) {
       if (proto) {
-        if (Object.hasOwnProperty.call(raw, k) === false) continue;
+        if (!has(raw, k)) {
+          // eslint-disable-next-line no-continue
+          continue;
+        }
       }
 
       const cur = raw[k];
       if (typeof cur !== "object" || isUnDef(cur)) {
         result[k] = cur;
-      } else if (cur instanceof Date) {
+      }
+      else if (cur instanceof Date) {
         result[k] = new Date(cur);
-      } else if (cur instanceof Map) {
+      }
+      else if (cur instanceof Map) {
         result[k] = new Map(baseClone(cur));
-      } else if (cur instanceof WeakMap) {
+      }
+      else if (cur instanceof WeakMap) {
         result[k] = new WeakMap(baseClone(Array.from<any>(raw as any)));
-      } else if (cur instanceof Set) {
+      }
+      else if (cur instanceof Set) {
         result[k] = new Set(baseClone(cur));
-      } else if (cur instanceof WeakSet) {
+      }
+      else if (cur instanceof WeakSet) {
         result[k] = new WeakSet(baseClone(Array.from<any>(raw as any)));
-      } else if (cur instanceof RegExp) {
+      }
+      else if (cur instanceof RegExp) {
         result[k] = cloneRegExp(cur);
-      } else if (ArrayBuffer.isView(cur)) {
+      }
+      else if (ArrayBuffer.isView(cur)) {
         result[k] = baseCopyBuffer(cur);
-      } else {
+      }
+      else {
         // 如果是循环引用
         const index = refs.indexOf(cur);
         if (index !== -1) {
           result[k] = cur;
-        } else {
+        }
+        else {
           result[k] = baseClone(cur);
         }
       }
@@ -99,33 +140,5 @@ export const deepClone = <T>(raw: T): T => {
     return result;
   };
 
-  const baseCopyBuffer = (raw: any) => {
-    if (raw instanceof Buffer) {
-      return Buffer.from(raw);
-    }
-
-    return new raw.constructor(raw.buffer.slice(), raw.byteOffset, raw.length);
-  };
-
-  const baseCloneArray = <T>(raw: T[]): T[] => {
-    return raw.map((val) => {
-      if (typeof val !== "object" || isUnDef(val)) {
-        return val;
-      } else if (val instanceof Date) {
-        return new Date(val);
-      } else if (ArrayBuffer.isView(val)) {
-        return baseCopyBuffer(val);
-      } else {
-        // 如果是循环引用
-        const index = refs.indexOf(val);
-        if (index !== -1) {
-          return val;
-        } else {
-          return baseClone(val);
-        }
-      }
-    }) as T[];
-  };
-
-  return baseClone(raw);
+  return baseClone(obj);
 };

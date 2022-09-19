@@ -1,19 +1,23 @@
+/* eslint-disable no-plusplus */
 import { has } from "./has";
 
+// eslint-disable-next-line max-statements
 export const isEqual = (a: unknown, b: unknown) => {
   if (a === b) return true;
 
-  if (a && b && typeof a == 'object' && typeof b == 'object') {
+  if (a && b && typeof a === "object" && typeof b === "object") {
     if (a.constructor !== b.constructor) return false;
 
     if (Array.isArray(a) && Array.isArray(b)) {
-      const length = a.length;
+      const { length } = a;
       if (length !== b.length) return false;
 
-      for (let i = 0; i < length; i++) {
-        if (!isEqual(a[i], b[i])) return false;
-        return true;
+      for (let i = 0;i < length;i++) {
+        if (!isEqual(a[i], b[i])) {
+          return false;
+        }
       }
+      return true;
     }
 
     if (a instanceof Map && b instanceof Map) {
@@ -36,28 +40,33 @@ export const isEqual = (a: unknown, b: unknown) => {
       return true;
     }
 
-    if (a instanceof RegExp && b instanceof RegExp) return a.source === b.source && a.flags === b.flags;
+    if (a instanceof RegExp && b instanceof RegExp) {
+      return a.source === b.source && a.flags === b.flags;
+    }
 
     if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
 
     if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
 
     const keys = Object.keys(a);
-    const length = keys.length;
+    const { length } = keys;
     if (length !== Object.keys(b).length) return false;
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0;i < length;i++) {
       if (!has(b, keys[i])) return false;
     }
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0;i < length;i++) {
       const key = keys[i];
 
-      if (!isEqual((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])) return false;
+      if (!isEqual((a as any)[key], (b as any)[key])) {
+        return false;
+      }
     }
 
     return true;
   }
 
+  // eslint-disable-next-line no-self-compare
   return a !== a && b !== b;
-}
+};
