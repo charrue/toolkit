@@ -1,15 +1,11 @@
 {
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "extends": ["plugin:@typescript-eslint/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "extends": ["@charrue/typescript"],
   "rules": {
     "guard-for-in": "off",
+    "no-magic-numbers": "off",
     "no-restricted-syntax": "off",
     "no-prototype-builtins": "off",
+    "import/no-unresolved": "off",
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "off",
