@@ -1,13 +1,13 @@
 {
   "include": ["src", "test"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ESNext",
     "baseUrl": ".",
-    "target": "es2015",
+    "target": "ES2015",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["dom", "esnext"],
+    "lib": ["DOM", "ESNext"],
     "declaration": true,
     "sourceMap": true,
     "strict": true,
