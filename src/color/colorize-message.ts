@@ -1,4 +1,9 @@
-import { green, yellow, red, cyan } from "kolorist";
+import {
+  green,
+  yellow,
+  red,
+  cyan,
+} from "kolorist";
 
 type ColorizeType = "success" | "error" | "warn" | "info"
 

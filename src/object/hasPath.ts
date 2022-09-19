@@ -1,6 +1,6 @@
-import { isUnDef } from '../is/index';
-import { has } from './has';
-import { IterableKey } from "./type";
+import { isUnDef } from "../is/index";
+import { has } from "./has";
+import type { IterableKey } from "./type";
 
 /**
  * @description 检查对象中是否存在指定的路径。只检查对象自身的属性。
@@ -16,7 +16,7 @@ import { IterableKey } from "./type";
  * has(obj, []) // false
  */
 export const hasPath = (obj: Record<IterableKey, any>, keys: IterableKey[]) => {
-  if (isUnDef(obj) || keys.length === 0) return false
+  if (isUnDef(obj) || keys.length === 0) return false;
 
   let index = 0;
   let val = obj;
@@ -24,9 +24,10 @@ export const hasPath = (obj: Record<IterableKey, any>, keys: IterableKey[]) => {
     if (val && has(val, keys[index])) {
       val = obj[keys[index]];
       index += 1;
-    } else {
-      return false
+    }
+    else {
+      return false;
     }
   }
-  return true
-}
+  return true;
+};

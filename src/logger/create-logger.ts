@@ -52,7 +52,8 @@ export function createLogger(
           clear();
         }
         console[method].call(null, format());
-      } else {
+      }
+      else {
         console[method].call(null, format());
       }
     }

@@ -1,5 +1,5 @@
 export * from "./ascii";
-export * from "./parseQueryString"
+export * from "./parseQueryString";
 
 /**
  * @description 如果字符串的长度小于指定的长度，那么在字符串的前面补充指定的字符串，直到字符串的长度达到指定的长度

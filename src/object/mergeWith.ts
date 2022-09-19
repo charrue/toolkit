@@ -1,3 +1,3 @@
-import _mergeWith from "lodash.mergewith"
+import _mergeWith from "lodash.mergewith";
 
-export const mergeWith = _mergeWith
+export const mergeWith = _mergeWith;

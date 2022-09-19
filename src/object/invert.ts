@@ -1,5 +1,5 @@
-import { IterableKey } from "./type";
-import { isStr, isNum, isSymbol } from '../is/index';
+import type { IterableKey } from "./type";
+import { isStr, isNum, isSymbol } from "../is/index";
 import { has } from "./has";
 
 /**
@@ -17,28 +17,29 @@ export const invert = <T extends Record<IterableKey, IterableKey>, B extends boo
   merge?: B,
   symbol?: boolean,
 ) => {
-  const keys = symbol ? Object.getOwnPropertySymbols(obj) : Object.keys(obj)
+  const keys = symbol ? Object.getOwnPropertySymbols(obj) : Object.keys(obj);
   const len = keys.length;
-  if (length === 0) return {};
+  if (len === 0) return {};
 
-  const output: Record<IterableKey, B extends false ? string : string[]> = {}
-  const index = 0;
-  while (index < len) {
-    const key = keys[index]
-    const val = obj[key]
+  const output: Record<IterableKey, B extends false ? string : string[]> = {};
+
+  keys.forEach((key) => {
+    const val = obj[key];
     // 只将 number、string、symbol 类型的值作为键名放入 output 中
     if (isStr(val) || isNum(val) || isSymbol(val)) {
       if (merge) {
         if (has(output, val)) {
-          (output as Record<IterableKey, IterableKey[]>)[val].push(key)
-        } else {
-          (output as Record<IterableKey, IterableKey[]>)[val] = [key]
+          (output as Record<IterableKey, IterableKey[]>)[val].push(key);
         }
-      } else {
-        (output as Record<IterableKey, IterableKey>)[val] = key
+        else {
+          (output as Record<IterableKey, IterableKey[]>)[val] = [ key ];
+        }
+      }
+      else {
+        (output as Record<IterableKey, IterableKey>)[val] = key;
       }
     }
+  });
 
-  }
   return output;
-}
+};
