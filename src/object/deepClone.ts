@@ -31,23 +31,12 @@ export const deepClone = <K>(obj: K): K => {
   const refs: any[] = [];
   const refsNew: any[] = [];
 
-  const baseCopyBuffer = (buffer: any) => {
-    if (buffer instanceof Buffer) {
-      return Buffer.from(buffer);
-    }
-
-    return new buffer.constructor(buffer.buffer.slice(), buffer.byteOffset, buffer.length);
-  };
-
   const baseCloneArray = <T>(arr: T[]): T[] => arr.map((val) => {
     if (typeof val !== "object" || isUnDef(val)) {
       return val;
     }
     if (val instanceof Date) {
       return new Date(val);
-    }
-    if (ArrayBuffer.isView(val)) {
-      return baseCopyBuffer(val);
     }
     // 如果是循环引用
     const index = refs.indexOf(val);
@@ -118,9 +107,6 @@ export const deepClone = <K>(obj: K): K => {
       }
       else if (cur instanceof RegExp) {
         result[k] = cloneRegExp(cur);
-      }
-      else if (ArrayBuffer.isView(cur)) {
-        result[k] = baseCopyBuffer(cur);
       }
       else {
         // 如果是循环引用
