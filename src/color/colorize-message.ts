@@ -5,7 +5,7 @@ import {
   cyan,
 } from "kolorist";
 
-type ColorizeType = "success" | "error" | "warn" | "info"
+type ColorizeType = "success" | "error" | "warn" | "info";
 
 const colorizeHandler = {
   success: green,

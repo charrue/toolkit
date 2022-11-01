@@ -1,7 +1,7 @@
 export const getType = (obj: any): string => Object.prototype.toString.call(obj);
 
 const isType = <T>(type: string | string[]) => (obj: unknown): obj is T => obj != null
-    && (Array.isArray(type) ? type : [ type ]).some((t) => getType(obj) === `[object ${t}]`);
+    && (Array.isArray(type) ? type : [type]).some((t) => getType(obj) === `[object ${t}]`);
 
 export const isWindow = isType<Window>("Window");
 export const isHTMLElement = (obj: any): obj is HTMLElement => obj?.nodeName || obj?.tagName;

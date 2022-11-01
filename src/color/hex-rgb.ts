@@ -6,8 +6,8 @@ const nonHexChars = new RegExp(`[^#${hexCharacters}]`, "gi");
 const validHexSize = new RegExp(`^${match3or4Hex}$|^${match6or8Hex}$`, "i");
 
 interface Options {
-  format?: "object" | "array" | "css"
-  alpha?: number
+  format?: "object" | "array" | "css";
+  alpha?: number;
 }
 
 // eslint-disable-next-line max-statements

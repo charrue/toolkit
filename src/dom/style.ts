@@ -15,8 +15,7 @@ export const getStyle = (
     if (style) return style;
     const computed: any = document.defaultView?.getComputedStyle(element, "");
     return computed ? computed[key] : "";
-  }
-  catch {
+  } catch {
     return (element.style as any)[key];
   }
 };
@@ -31,8 +30,7 @@ export const setStyle = (
   if (isObj(styleName)) {
     Object.entries(styleName)
       .forEach(([prop, val]) => setStyle(element, prop, (val as string)));
-  }
-  else {
+  } else {
     const key: any = camelize(styleName);
     element.style[key] = value as any;
   }
@@ -46,8 +44,7 @@ export const removeStyle = (
 
   if (isObj(style)) {
     Object.keys(style).forEach((prop) => removeStyle(element, prop));
-  }
-  else {
+  } else {
     setStyle(element, style, "");
   }
 };

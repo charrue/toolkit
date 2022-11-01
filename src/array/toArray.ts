@@ -14,7 +14,7 @@ export const toArray = (arrayLike: any) => {
   if (arrayLike.length === 0) return [];
 
   if (typeof arrayLike === "string") {
-    return [ ...arrayLike ];
+    return [...arrayLike];
   }
 
   const { length } = arrayLike;

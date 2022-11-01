@@ -1,1 +1,1 @@
-export type IterableKey = string | number | symbol
+export type IterableKey = string | number | symbol;

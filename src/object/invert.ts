@@ -30,12 +30,10 @@ export const invert = <T extends Record<IterableKey, IterableKey>, B extends boo
       if (merge) {
         if (has(output, val)) {
           (output as Record<IterableKey, IterableKey[]>)[val].push(key);
+        } else {
+          (output as Record<IterableKey, IterableKey[]>)[val] = [key];
         }
-        else {
-          (output as Record<IterableKey, IterableKey[]>)[val] = [ key ];
-        }
-      }
-      else {
+      } else {
         (output as Record<IterableKey, IterableKey>)[val] = key;
       }
     }

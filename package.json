@@ -16,7 +16,7 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint src/**/*.ts --fix",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish",
     "start": "esno",
@@ -39,7 +39,7 @@
     "lodash.mergewith": "^4.6.2"
   },
   "devDependencies": {
-    "@charrue/eslint-config-typescript": "^0.2.0",
+    "@charrue/eslint-config-typescript": "^0.3.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@types/lodash.merge": "^4.6.7",
