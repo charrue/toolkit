@@ -3,7 +3,6 @@ import {
   camelize,
   capitalize,
   hyphenate,
-  padStart,
 } from "./index";
 
 test("camelize", () => {
@@ -16,8 +15,4 @@ test("capitalize", () => {
 
 test("hyphenate", () => {
   expect(hyphenate("helloWorld")).toBe("hello-world");
-});
-
-test("padStart", () => {
-  expect(capitalize("helloWorld")).toBe("hello-world");
 });
