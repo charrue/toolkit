@@ -3,7 +3,6 @@ export * from "./color";
 export * from "./function";
 export * from "./object";
 export * from "./is";
-export * from "./logger";
 export * from "./browser/index";
 export * from "./date";
 export * from "./dom";
