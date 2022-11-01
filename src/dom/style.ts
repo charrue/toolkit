@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { inBrowser } from "../browser/inBrowser/index";
 import { camelize } from "../string/camelize";
 import { isObj, isStr, isNum } from "../is/index";

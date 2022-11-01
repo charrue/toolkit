@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 function toVal(mix: any) {
   let y = "";
   let str = "";
@@ -12,7 +11,9 @@ function toVal(mix: any) {
         if (mix[k]) {
           y = toVal(mix[k]);
           if (y) {
-            str && (str += " ");
+            if (str) {
+              str += " ";
+            }
             str += y;
           }
         }
@@ -21,7 +22,9 @@ function toVal(mix: any) {
     else {
       for (const k in mix) {
         if (mix[k]) {
-          str && (str += " ");
+          if (str) {
+            str += " ";
+          }
           str += k;
         }
       }
@@ -42,7 +45,9 @@ export const clz = (...args: any[]) => {
     if (tmp) {
       x = toVal(tmp);
       if (x) {
-        str && (str += " ");
+        if (str) {
+          str += " ";
+        }
         str += x;
       }
     }
