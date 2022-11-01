@@ -89,32 +89,24 @@ export const deepClone = <K>(obj: K): K => {
       const cur = raw[k];
       if (typeof cur !== "object" || isUnDef(cur)) {
         result[k] = cur;
-      }
-      else if (cur instanceof Date) {
+      } else if (cur instanceof Date) {
         result[k] = new Date(cur);
-      }
-      else if (cur instanceof Map) {
+      } else if (cur instanceof Map) {
         result[k] = new Map(baseClone(cur));
-      }
-      else if (cur instanceof WeakMap) {
+      } else if (cur instanceof WeakMap) {
         result[k] = new WeakMap(baseClone(Array.from<any>(raw as any)));
-      }
-      else if (cur instanceof Set) {
+      } else if (cur instanceof Set) {
         result[k] = new Set(baseClone(cur));
-      }
-      else if (cur instanceof WeakSet) {
+      } else if (cur instanceof WeakSet) {
         result[k] = new WeakSet(baseClone(Array.from<any>(raw as any)));
-      }
-      else if (cur instanceof RegExp) {
+      } else if (cur instanceof RegExp) {
         result[k] = cloneRegExp(cur);
-      }
-      else {
+      } else {
         // 如果是循环引用
         const index = refs.indexOf(cur);
         if (index !== -1) {
           result[k] = cur;
-        }
-        else {
+        } else {
           result[k] = baseClone(cur);
         }
       }

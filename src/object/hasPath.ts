@@ -24,8 +24,7 @@ export const hasPath = (obj: Record<IterableKey, any>, keys: IterableKey[]) => {
     if (val && has(val, keys[index])) {
       val = obj[keys[index]];
       index += 1;
-    }
-    else {
+    } else {
       return false;
     }
   }

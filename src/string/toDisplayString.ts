@@ -12,7 +12,7 @@ import {
 const defaultReplacer = (_key: string, value: any): any => {
   if (isMap(value)) {
     return {
-      [`Map(${value.size})`]: [ ...value.entries() ].reduce((entries, [key, val]) => {
+      [`Map(${value.size})`]: [...value.entries()].reduce((entries, [key, val]) => {
         // eslint-disable-next-line no-param-reassign
         (entries as any)[`${key} =>`] = val;
         return entries;
@@ -21,7 +21,7 @@ const defaultReplacer = (_key: string, value: any): any => {
   }
   if (isSet(value)) {
     return {
-      [`Set(${value.size})`]: [ ...value.values() ],
+      [`Set(${value.size})`]: [...value.values()],
     };
   }
   if (isObj(value) && !isArr(value) && !isPlainObj(value)) {

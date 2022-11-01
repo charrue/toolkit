@@ -4,8 +4,7 @@ function toVal(mix: any) {
 
   if (typeof mix === "string" || typeof mix === "number") {
     str += mix;
-  }
-  else if (typeof mix === "object") {
+  } else if (typeof mix === "object") {
     if (Array.isArray(mix)) {
       for (let k = 0;k < mix.length;k += 1) {
         if (mix[k]) {
@@ -18,8 +17,7 @@ function toVal(mix: any) {
           }
         }
       }
-    }
-    else {
+    } else {
       for (const k in mix) {
         if (mix[k]) {
           if (str) {

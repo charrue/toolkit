@@ -26,10 +26,10 @@ test("object", () => {
     h: undefined,
     i: [1, 2, 3],
     j: {},
-    k: new Map([ ["a", 1], ["b", 2] ]),
+    k: new Map([["a", 1], ["b", 2]]),
     l: new Set([1, 2, 3]),
-    m: new WeakMap([ [{}, 1], [{}, 2] ]),
-    n: new WeakSet<string[]>([ ["a", "b"] ]),
+    m: new WeakMap([[{}, 1], [{}, 2]]),
+    n: new WeakSet<string[]>([["a", "b"]]),
     obj1,
   };
 
@@ -41,7 +41,7 @@ test("array", () => {
   const arr1 = [1, 2];
   expect(deepClone(arr1)).toEqual(arr1);
 
-  const arr2 = [1, 2, [3, 4] ];
+  const arr2 = [1, 2, [3, 4]];
   expect(deepClone(arr2)).toEqual(arr2);
 
   const arr3 = [{ foo: "foo" }, { bar: "bar" }];

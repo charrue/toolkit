@@ -18,7 +18,7 @@ test("Date", () => {
 });
 
 test("Map", () => {
-  expect(isEqual(new Map([ ["a", 1], ["b", 2] ]), new Map([ ["a", 1], ["b", 2] ]))).toBe(true);
+  expect(isEqual(new Map([["a", 1], ["b", 2]]), new Map([["a", 1], ["b", 2]]))).toBe(true);
 });
 
 test("Set", () => {
