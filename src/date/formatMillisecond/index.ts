@@ -1,5 +1,4 @@
 import { parseMillisecond } from "../parseMillisecond/index";
-import { padStart } from "../../string/index";
 
 type SecondFormatUnit = "Y" | "M" | "MM" | "D" | "DD" | "H" | "HH" | "m" | "mm" | "s" | "ss" | "SSS"
 
@@ -24,16 +23,16 @@ export const formatMillisecond = (millisecond: number, formatter = "HH:mm:ss") =
   const matches: Record<SecondFormatUnit, string> = {
     Y: `${years}`,
     M: `${months}`,
-    MM: padStart(`${days}`, 2, "0"),
+    MM: `${days}`.padStart(2, "0"),
     D: `${days}`,
-    DD: padStart(`${days}`, 2, "0"),
+    DD: `${days}`.padStart(2, "0"),
     H: `${hours}`,
-    HH: padStart(`${hours}`, 2, "0"),
+    HH: `${hours}`.padStart(2, "0"),
     m: `${minutes}`,
-    mm: padStart(`${minutes}`, 2, "0"),
+    mm: `${minutes}`.padStart(2, "0"),
     s: `${seconds}`,
-    ss: padStart(`${seconds}`, 2, "0"),
-    SSS: padStart(`${milliseconds}`, 3, "0"),
+    ss: `${seconds}`.padStart(2, "0"),
+    SSS: `${milliseconds}`.padStart(3, "0"),
   };
 
   return formatter.replace(
