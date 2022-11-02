@@ -1,4 +1,5 @@
-rrue/typescript"],
+{
+  "extends": ["@charrue/typescript"],
   "rules": {
     "guard-for-in": "off",
     "no-magic-numbers": "off",
