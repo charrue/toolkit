@@ -1,6 +1,7 @@
 export * from "./deepClone";
 export * from "./forEachObjIndexed";
 export * from "./has";
+export * from "./hasChanged";
 export * from "./hasPath";
 export * from "./invert";
 export * from "./isEqual";

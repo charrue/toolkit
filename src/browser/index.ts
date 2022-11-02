@@ -7,3 +7,5 @@ export { imageUrlToBase64 } from "./imageUrlToBase64/index";
 export { inBrowser } from "./inBrowser/index";
 export { isDataURL } from "./isDataURL/index";
 export { setClipboardData } from "./setClipboardData/index";
+export * from "./getGlobalThis";
+export * from "./keycode";
