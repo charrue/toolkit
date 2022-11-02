@@ -1,5 +1,4 @@
-{
-  "extends": ["@charrue/typescript"],
+rrue/typescript"],
   "rules": {
     "guard-for-in": "off",
     "no-magic-numbers": "off",
@@ -11,5 +10,8 @@
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
+  },
+  "globals": {
+    "global": "readonly"
   }
 }
