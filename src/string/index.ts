@@ -5,3 +5,5 @@ export * from "./camelize";
 export * from "./capitalize";
 export * from "./hyphenate";
 export * from "./toDisplayString";
+export * from "./balanced-match/index";
+export * from "./brace-expansion/index";
