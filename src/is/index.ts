@@ -44,4 +44,8 @@ export const isDef = (val: any): boolean => !isNull(val) && !isUndefined(val);
 
 export const isUnDef = (val: any): boolean => isNull(val) || isUndefined(val);
 
+export const isNullish = isUnDef;
+
+export const isNullishOrNan = <T>(value: T): boolean => isNullish(value) || Number.isNaN(value);
+
 export const isPromise = (obj: any): obj is Promise<any> => !!obj && typeof obj.then === "function";
