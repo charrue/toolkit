@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-import { has } from "./has";
+import { has } from "../has";
 
 // eslint-disable-next-line max-statements
 export const isEqual = (a: unknown, b: unknown) => {
