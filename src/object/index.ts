@@ -5,7 +5,5 @@ export * from "./hasChanged";
 export * from "./hasPath";
 export * from "./invert";
 export * from "./isEqual";
-export * from "./merge";
-export * from "./mergeWith";
 export * from "./omit";
 export * from "./pick";
