@@ -1,6 +1,12 @@
-export function toPrecision(num: number, precision = 0) {
-  if (typeof num !== "number") return num;
+import { toNumber } from "../toNumber";
 
-  const ratio = 10 ** Number(precision.toFixed(0));
-  return parseFloat(`${Math.round(num * ratio) / ratio}`);
-}
+export const toPrecision = (value: number | `${number}`, precision = 0) => {
+  let nextValue = toNumber(value);
+  if (nextValue === Infinity || nextValue === -Infinity) {
+    return nextValue;
+  }
+
+  const scaleFactor = 10 ** precision;
+  nextValue = Math.round(nextValue * scaleFactor) / scaleFactor;
+  return toNumber(precision ? nextValue.toFixed(precision) : nextValue.toString());
+};
