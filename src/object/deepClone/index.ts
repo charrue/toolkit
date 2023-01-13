@@ -1,5 +1,5 @@
-import { isUnDef } from "../is/index";
-import { has } from "./has";
+import { isUnDef } from "../../is/index";
+import { has } from "../has";
 
 const cloneRegExp = (reg: RegExp) => {
   const pattern = reg.source;
@@ -27,7 +27,7 @@ const cloneRegExp = (reg: RegExp) => {
  * @from https://github.com/davidmarkclements/rfdc
  * @returns 深拷贝后的值
  */
-export const deepClone = <K>(obj: K): K => {
+export const deepClone = <K>(source: K): K => {
   const refs: any[] = [];
   const refsNew: any[] = [];
 
@@ -118,5 +118,5 @@ export const deepClone = <K>(obj: K): K => {
     return result;
   };
 
-  return baseClone(obj);
+  return baseClone(source);
 };

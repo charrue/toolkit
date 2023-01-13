@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { deepClone } from "./deepClone";
+import { deepClone } from "./index";
 
 test("integers, strings and booleans", () => {
   expect(deepClone(10)).toBe(10);
