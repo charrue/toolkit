@@ -1,6 +1,6 @@
 import { parseMillisecond } from "../parseMillisecond/index";
 
-type SecondFormatUnit = "Y" | "M" | "MM" | "D" | "DD" | "H" | "HH" | "m" | "mm" | "s" | "ss" | "SSS"
+type SecondFormatUnit = "Y" | "M" | "MM" | "D" | "DD" | "H" | "HH" | "m" | "mm" | "s" | "ss" | "SSS";
 
 const REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g;
 
