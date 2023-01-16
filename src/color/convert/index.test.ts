@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { rgbaToHex, rgbToHex, hexToRgb, hexToRgba, rgbToHsl, hslToRgb } from "./index";
+import { rgbaToHex, rgbToHex, hexToRgb, hexToRgba, rgbToHsl, hslToRgb, hexToHsl } from "./index";
 
 describe("convert", () => {
   test("rgbToHex", () => {
@@ -31,5 +31,9 @@ describe("convert", () => {
   test("hslToRgb", () => {
     expect(hslToRgb("hsl(131, 100%, 63%)"))
       .toBe("rgb(66, 255, 101)");
+  });
+
+  test("hexToHsl", () => {
+    expect(hexToHsl("#43ff64")).toBe("hsl(131, 100%, 63%)");
   });
 });

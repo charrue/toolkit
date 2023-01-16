@@ -73,6 +73,8 @@ export const hexToRgba = (hex: string) => {
   return hexToRgb(hex);
 };
 
+export const hexToHsl = (hex: string) => rgbToHsl(hexToRgb(hex) as string);
+
 export const rgbToHsl = (rgb: string) => {
   const result = rgb.match(RGB_RE);
   if (!result) return undefined;
@@ -115,7 +117,6 @@ export const rgbToHsl = (rgb: string) => {
   return `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
 };
 
-// fork from https://github.com/Qix-/color-convert/blob/master/conversions.js
 export const hslToRgb = (hsl: string) => {
   const result = hsl.match(HSL_RE);
   if (!result) return false;
