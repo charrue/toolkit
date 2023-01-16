@@ -1,5 +1,6 @@
+// fork from https://github.com/Qix-/color-convert/blob/master/conversions.js
+
 /* eslint-disable max-statements */
-/* eslint-disable no-bitwise */
 import { RGBA_RE, RGB_RE, HEX_RE, HSL_RE } from "../constants";
 import { inRange } from "../../number/inRange/index";
 import { toPrecision } from "../../number/toPrecision/index";
@@ -111,46 +112,60 @@ export const rgbToHsl = (rgb: string) => {
     s = delta / (2 - max - min);
   }
 
-  return `hsl(${toPrecision(h, 0)}, ${toPrecision(s * 100, 0)}%, ${toPrecision(l * 100, 0)}%)`;
+  return `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
 };
 
-// TODO
-// fork from https://github.com/vinaypillai/ac-colors/blob/master/index.js
+// fork from https://github.com/Qix-/color-convert/blob/master/conversions.js
 export const hslToRgb = (hsl: string) => {
   const result = hsl.match(HSL_RE);
   if (!result) return false;
 
-  let h = Number(result[1]);
-  let s = toNumber(result[2]);
-  let l = toNumber(result[3]);
-  // Hue has a period of 360deg, if hue is negative, get positive hue
-  // by scaling h to (-360,0) and adding 360
-  h = (h < 0) ? (h % 360) + 360 : h;
-  // Normalize saturation and lightness to [0,1], hue [0,6)
-  l /= 100;
-  s /= 100;
-  h /= 60;
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs((h % 2) - 1));
-  const m = l - c / 2;
-  console.log(h, s, l, c, x, m);
+  const h = Number(result[1]) / 360;
+  const s = toNumber(result[2]) / 100;
+  const l = toNumber(result[3]) / 100;
 
-  let rgb1;
-  if (h < 1) {
-    rgb1 = [c, x, 0];
-  } else if (h < 2) {
-    rgb1 = [x, c, 0];
-  } else if (h < 3) {
-    rgb1 = [0, c, x];
-  } else if (h < 4) {
-    rgb1 = [0, x, c];
-  } else if (h < 5) {
-    rgb1 = [x, 0, c];
-  } else {
-    rgb1 = [c, 0, x];
+  let t2;
+  let t3;
+  let val;
+
+  if (s === 0) {
+    val = l * 255;
+    return [val, val, val];
   }
 
-  // Add zero to prevent signed zeros (force 0 rather than -0)
-  const rgb = rgb1.map((val) => toPrecision((val + m) * 255, 0) + 0);
+  if (l < 0.5) {
+    t2 = l * (1 + s);
+  } else {
+    t2 = l + s - l * s;
+  }
+
+  const t1 = 2 * l - t2;
+
+  let rgb = [0, 0, 0];
+  for (let i = 0;i < 3;i++) {
+    t3 = h + (1 / 3) * -(i - 1);
+    if (t3 < 0) {
+      t3++;
+    }
+
+    if (t3 > 1) {
+      t3--;
+    }
+
+    if (6 * t3 < 1) {
+      val = t1 + (t2 - t1) * 6 * t3;
+    } else if (2 * t3 < 1) {
+      val = t2;
+    } else if (3 * t3 < 2) {
+      val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+    } else {
+      val = t1;
+    }
+
+    rgb[i] = val * 255;
+  }
+
+  rgb = rgb.map((v) => Math.round(v));
+
   return `rgb(${rgb.join(", ")})`;
 };

@@ -30,6 +30,6 @@ describe("convert", () => {
 
   test("hslToRgb", () => {
     expect(hslToRgb("hsl(131, 100%, 63%)"))
-      .toBe("rgb(67, 255, 100)");
+      .toBe("rgb(66, 255, 101)");
   });
 });
