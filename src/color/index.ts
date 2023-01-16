@@ -1,2 +1,4 @@
-export * from "./hex-rgb";
+export * from "./convert";
+export * from "./getColorMode";
+export * from "./constants";
 export * from "./colorize-message";
