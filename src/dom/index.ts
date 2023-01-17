@@ -1,2 +1,2 @@
-export * from "./class";
-export * from "./style";
+export * from "./class/index";
+export * from "./style/index";

@@ -14,7 +14,7 @@ export const isFn = isType<(...args: any[]) => any>([
 
 export const isArr = Array.isArray;
 
-export const isPlainObj = isType<Record<string, unknown>>("Object");
+export const isPlainObj = isType<Record<string | number | symbol, unknown>>("Object");
 
 export const isStr = isType<string>("String");
 

@@ -7,7 +7,7 @@ import {
   isMap,
   isSet,
   isPlainObj,
-} from "../is/index";
+} from "../../is/index";
 
 const defaultReplacer = (_key: string, value: any): any => {
   if (isMap(value)) {

@@ -1,6 +1,6 @@
-import { inBrowser } from "../browser/inBrowser/index";
-import { camelize } from "../string/camelize";
-import { isObj, isStr, isNum } from "../is/index";
+import { inBrowser } from "../../browser/inBrowser/index";
+import { camelize } from "../../string/camelize";
+import { isObj, isStr, isNum } from "../../is/index";
 
 export const getStyle = (
   element: HTMLElement,
