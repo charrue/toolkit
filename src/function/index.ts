@@ -4,3 +4,7 @@ export * from "./noop/index";
 export * from "./once/index";
 export * from "./runIfFn/index";
 export * from "./tryWrap/index";
+export * from "./onceMeanwhile/index";
+export * from "./invoke/index";
+export * from "./tap/index";
+export * from "./memoize/index";
