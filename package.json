@@ -39,6 +39,7 @@
     "@commitlint/config-conventional": "^12.1.4",
     "@types/balanced-match": "^1.0.2",
     "@types/brace-expansion": "^1.1.0",
+    "@types/js-cookie": "^3.0.2",
     "@types/node": "^18.11.9",
     "balanced-match": "^2.0.0",
     "brace-expansion": "^2.0.1",
@@ -62,5 +63,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.1"
   }
 }
