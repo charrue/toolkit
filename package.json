@@ -65,6 +65,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "colord": "^2.9.3",
     "js-cookie": "^3.0.1"
   }
 }
