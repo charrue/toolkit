@@ -1,8 +1,8 @@
-# unique
+# simpleUnique
 
 简单的数组去重。
 
-### Usage
+## Usage
 
 ```ts
 expect(simpleUnique([])).toEqual([]);
